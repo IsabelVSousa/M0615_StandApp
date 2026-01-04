@@ -1,0 +1,17 @@
+body{
+    background-color: #202020;
+}
+
+h1,
+h2,
+p {
+    display: grid;
+    font-family: outfit;
+    color: white;
+}
+
+a {
+    display: grid;
+    font-family: outfit;
+    color: #FC3A05;
+}
