@@ -1,107 +1,149 @@
-body {
-    background-color: #202020;
-    display: grid;
-    grid-template-columns: 5% 50% 40% 5%;
-    grid-template-rows: 15% 35% 43% 17%;
+ :root {
+     --primary-orange: #FF4500;
+     /* Color naranja intenso */
+     --bg-dark: #1F2124;
+     /* Fondo general */
+     --card-bg: #363636;
+     /* Fondo de la tarjeta */
+     --text-white: #ffffff;
+ }
+
+ /* OVERALL LAYOUT */
+
+html, body {
+    height: 100%;
+    margin: 0;
 }
 
-header {
-    grid-column: 2 / 3;
-    grid-row: 2 / 4;
-    margin-right: 60px;
-}
+ body {
+     min-height: 100vh;
+     display: flex;
+     flex-direction: column;
+     background-color: #202020;
+ }
 
-main {
-    background-color: #FC3A0580;
-    border-radius: 20px;
-    grid-column: 3 / 4;
-    grid-row: 2 / 4;
-}
+ .page {
+     flex: 1;
+     display: grid;
+     grid-template-columns: 8% 50% 34% 8%;
+     /* grid-template-rows: 12% 38% 52% 8%; */
+     /* grid-template-rows: 1fr 3fr 4fr auto; */
+ }
 
-form{
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 10px;
-    gap: 0.75rem;
-}
+ header {
+     grid-column: 2 / 3;
+     grid-row: 2 / 4;
+     margin-right: 60px;
+ }
 
-h1,
-h2,
-p,
-label,
-button {
-    display: grid;
-    font-family: outfit;
-    color: white;
-}
+ main {
+     background-color: #FC3A0580;
+     border-radius: 20px;
+     grid-column: 3 / 4;
+     grid-row: 2 / 4;
+ }
 
-a {
-    display: grid;
-    font-family: outfit;
-    color: #FC3A05;
-}
+ form {
+     display: flex;
+     flex-direction: column;
+     box-sizing: border-box;
+     padding: 10px;
+     gap: 0.75rem;
+ }
 
-input,
-button {
-    width: 100%;
-    padding: 0.3rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    border-style: none;
-}
+ h1,
+ h2,
+ p,
+ label,
+ button {
+     display: grid;
+     font-family: outfit;
+     color: white;
+ }
 
-input::placeholder {
-    color: #999;       
-    font-size: 0.8rem; 
-}
+ a {
+     display: grid;
+     font-family: outfit;
+     color: #FC3A05;
+ }
 
-.g_form label{
-    margin-bottom: 6px;
-}
+ /* FORM */
 
-button {
-    background-color: #FC3A05;
-    cursor: pointer;
-    border: none;
-    margin: 10px;
-}
+ input,
+ button {
+     width: 100%;
+     padding: 0.3rem;
+     font-size: 1rem;
+     border-radius: 8px;
+     border-style: none;
+ }
 
-section {
-    display: flex; 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+ input::placeholder {
+     color: #999;
+     font-size: 0.8rem;
+ }
 
-.g_enlaces a,.g_enlaces p{
-    margin: 1px;
-    display: flex; 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+ .g_form label {
+     margin-bottom: 6px;
+ }
 
-main>div>p {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    font-size: 12px;
-    margin-left: 20px;
-    
-}
+ button {
+     background-color: #FC3A05;
+     cursor: pointer;
+     border: none;
+     margin: 10px;
+ }
 
-footer {
-    display: grid;
-    grid-column: 2 / 4;
-    grid-row: 4 / 5;
-    justify-content: center;
-    align-items: end;
-    align-self: baseline;
-}
+ section {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+ }
 
-footer>p {
-    display: flex;
-    flex-direction: column;
-    justify-content:end;
-}
+ /* ENLACES ASIDE */
+
+ .enlaces {
+     display: flex;
+     flex-direction: row;
+     justify-content: center;
+     align-items: center;
+     margin: -10px;
+ }
+
+ .g_enlaces {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin: -5px;
+ }
+
+ div.g_enlaces {
+     margin-bottom: 10px;
+ }
+
+ main>div>p {
+     display: flex;
+     flex-direction: row;
+     justify-content: flex-start;
+     font-size: 12px;
+     margin-left: 20px;
+
+ }
+
+ /* COPYRIGHT */
+
+ /* footer {
+     display: grid;
+     grid-column: 2 / 4;
+     grid-row: 4 / 5;
+     justify-content: center;
+     align-items: end;
+     align-self: end;
+ }
+
+ footer>p {
+     display: flex;
+     flex-direction: column;
+     justify-content: end;
+ } */
