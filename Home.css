@@ -236,15 +236,20 @@ body {
     border-radius: 10px;
 }
 
-.outstand-card {
+.next-card {
     overflow: hidden;
-    min-height: 900px;
+    min-height: 800px;
     display: flex;
     flex-direction: column;
     justify-content: right;
     margin-top: 50px;
 }
 
+.event-list{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
 
 .collection-list {
     display: flex;
@@ -278,12 +283,18 @@ img.next-event {
     height: 16rem;
 }
 
+.button-next {
+    margin-top: 2rem;
+    margin-left: auto;
+    text-align-last: right;
+}
+
 .card-info-next {
     grid-column-gap: 1rem;
     grid-row-gap: 1rem;
     justify-content: flex-start;
     align-items: center;
-    margin-top: 2.625rem;
+    margin-top: 1.625rem;
     display: flex;
     flex-direction: row;
 }
@@ -337,7 +348,7 @@ img.next-event {
 
 /* FOOTER */
 
-.footer-right{
+.footer-right {
     flex-flow: column;
     padding-left: 0;
     list-style-type: none;
