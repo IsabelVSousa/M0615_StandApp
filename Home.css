@@ -191,11 +191,11 @@ body {
 
 .events-outstand {
     background-color: var(--card-bg);
-    margin: 0 40px;
+    margin: 0 15px;
     border-radius: 15px;
     overflow: hidden;
     min-height: 520px;
-    max-width: 360px;
+    min-width: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -203,11 +203,11 @@ body {
 
 .events-outstand-b {
     background-color: var(--card-bg);
-    margin: 0 40px;
+    margin: 0 15px;
     border-radius: 15px;
     overflow: hidden;
     min-height: 520px;
-    max-width: 520px;
+    min-width: 520px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
