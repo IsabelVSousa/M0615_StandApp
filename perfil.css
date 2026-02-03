@@ -23,12 +23,18 @@ body {
 /* bar-nav */
 
 .navbar {
-    background-color: var(--primary-orange);
+    /* background-color: var(--primary-orange);
     height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
+    padding: 0 40px; */
+    background-color: var(--primary-orange);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    font-size: 0.85rem;
+    align-items: center;
 }
 
 /* Logo y Nombre */
@@ -39,8 +45,8 @@ body {
 }
 
 .logo-circle {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     background-color: var(--white);
     border-radius: 50%;
     display: flex;
@@ -56,9 +62,11 @@ body {
 }
 
 .tittle {
-    font-weight: 900;
-    font-size: 1.2rem;
+    font-weight: 800;
+    /* font-size: 1.2rem; */
     text-transform: uppercase;
+    width: 100px;
+    height: 14px;
 }
 
 /* Parte Central de la barra*/
@@ -67,16 +75,18 @@ body {
     gap: 20px;
     font-weight: 800;
     text-transform: uppercase;
-    font-size: 1.2rem;
+    /* font-size: 1.2rem; */
 }
 
-.nav-links span {
+.nav-links a {
     border-right: 2px solid rgba(255,255,255,0.4);
+    color: var(--text-white);
+    text-decoration: none;
     padding-right: 20px;
     cursor: pointer;
 }
 
-.nav-links span:last-child {
+.nav-links a:last-child {
     border-right: none;
 }
 
