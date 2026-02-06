@@ -23,19 +23,22 @@ body {
     background-color: var(--primary-orange);
     display: flex;
     justify-content: space-around;
-    padding: 12px 0;
+    padding: 0.75rem 0;
     font-size: 0.85rem;
 }
 
 .navegacion-principal {
     background-color: var(--primary-orange);
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
     /* margin: 20px 40px; */
     /* padding: 15px 30px; */
     /* border-radius: 10px; */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 120px;
+    gap: 5%;
 }
 
 .navegacion-izquierda {
@@ -45,8 +48,8 @@ body {
 }
 
 .logo-circulo {
-    width: 50px;
-    height: 50px;
+    width: 3rem;
+    height: 3rem;
     background-color: var(--white);
     border-radius: 50%;
     display: flex;
@@ -92,12 +95,12 @@ body {
 }
 
 .boton {
-    padding: 8px 15px;
+    /* padding: 8px 15px; */
     border: 1px solid white;
     font-weight: bold;
     text-decoration: none;
     cursor: pointer;
-    border-radius: 5px;
+    /* border-radius: 5px; */
 }
 
 .boton-contorno {
@@ -114,15 +117,15 @@ body {
 .contenedor-registro {
     display: flex;
     justify-content: center;
-    padding: 60px 20px;
+    padding: 4rem 5%;
 }
 
 .tarjeta-registro {
     background-color: var(--card-bg);
-    max-width: 1000px;
+    max-width: 62.5rem;
     width: 100%;
     border-radius: 15px;
-    padding: 40px;
+    padding: 2.5rem;
 }
 
 .titulo-registro {
@@ -135,8 +138,8 @@ body {
 
 .layout-registro {
     display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 40px;
+    grid-template-columns: 30% 1fr;
+    gap: 4%;
 }
 
 
@@ -146,10 +149,10 @@ body {
 }
 
 .placeholder-foto {
-    width: 180px;
-    height: 180px;
+    width: 10rem;
+    height: 10rem;
     border: 2px dashed #555;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -173,7 +176,7 @@ body {
 .formulario-registro {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 25px;
+    gap: 1.5rem;
 }
 
 .grupo-formulario {
@@ -190,7 +193,7 @@ body {
 .grupo-formulario input {
     background-color: var(--input-bg);
     border: 1px solid #444;
-    border-radius: 8px;
+    border-radius: 0.75rem;
     padding: 12px;
     color: white;
 }
@@ -212,7 +215,7 @@ body {
     background: transparent;
     border: 1px solid #777;
     color: white;
-    padding: 10px 25px;
+    /* padding: 10px 25px; */
     cursor: pointer;
 }
 
@@ -220,9 +223,16 @@ body {
     background-color: var(--primary-orange);
     border: none;
     color: white;
-    padding: 10px 30px;
+    /* padding: 10px 30px; */
     font-weight: 800;
     cursor: pointer;
+}
+
+.boton,
+.boton-cancelar,
+.boton-enviar{
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.4rem;
 }
 
 .footer-section {
@@ -264,8 +274,8 @@ body {
 
 .footer-right {
     flex: none;
-    margin-left: 7.625rem;
-    padding-right: 75px;
+    margin-left: 5%;
+    padding-right: 5%;
 }
 
 .footer-menu-list {
@@ -297,7 +307,7 @@ body {
     justify-content: space-between;
     align-items: center;
     display: flex;
-    padding: 40px;
+    padding: 2.5rem 5%;
 }
  
 
