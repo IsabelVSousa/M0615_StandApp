@@ -32,7 +32,7 @@ body {
     background-color: var(--primary-orange);
     display: flex;
     justify-content: space-around;
-    padding: 10px 0;
+    padding: 12px 0;
     font-size: 0.85rem;
     align-items: center;
 }
@@ -96,7 +96,7 @@ body {
 }
 
 /* Botón Cerrar Sesión */
-.logout-btn {
+/* .logout-btn {
     background: transparent;
     border: 2px solid var(--white);
     color: var(--white);
@@ -109,6 +109,19 @@ body {
 
 .logout-btn:hover {
     background: rgba(255,255,255,0.2);
+} */
+ .btn {
+    padding: 8px 15px;
+    border: 1px solid white;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn-outline {
+    background: transparent;
+    color: white;
 }
 
 /* perfil */
