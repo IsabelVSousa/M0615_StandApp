@@ -37,7 +37,9 @@ class UserController{
     
         //falta asignar la password
         $password = "";
-        $dbname = "standApp";
+        $dbname = "MF_StandApp";
+
+        $conexion = new mysqli("localhost", "root", "", "MF_StandApp");
     }
 
     public function login():void {
