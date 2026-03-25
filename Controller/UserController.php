@@ -3,7 +3,8 @@ session_start();
 
 // si el metodo es post creo el usuario
 //porque no es un isset??
-if ($_SESSION["REQUEST_METHOD"] == "POST") {
+// var_dump($_SERVER);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userController = new UserController();
 }
 
@@ -38,23 +39,54 @@ class UserController
 
         //falta asignar la password
         $password = "";
-        $dbname = "MF_StandApp";
+        $dbname = "standapp";
 
-        $conexion = new mysqli("localhost", "root", "", "MF_StandApp");
+        $this->conn = new mysqli("localhost", "root", "", "standapp");
 
         //dentro del constructor??
-        if ($conexion->connect_error) {
-            die("Error de conexión: " . $conexion->connect_error);
+        if ($this->conn->connect_error) {
+            die("Error de conexión: " . $this->conn->connect_error);
         }
 
         echo "Conexión exitosa";
 
-        $conexion->set_charset("utf8mb4");
+        $this->conn->set_charset("utf8mb4");
     }
 
     public function login(): void
     {
         echo "login";
+
+        // o esta otra opcion??
+        $email = $_POST['email'];
+        $psw = $_POST['password'];
+        // necesita que exista las dos cosas para poder enviar el post
+
+        // Preparar consulta, falta password
+        $sql = "SELECT IDPERSONA, nombreApellido, email, contraseña  FROM persona WHERE email = ? ";
+
+
+        $stmt = $this->conn->prepare($sql);
+
+        // Vincular parámetros (tipos: i=integer, s=string, d=double, b=blob)
+        $stmt->bind_param("s", $email);
+
+        // Ejecutar
+        $stmt->execute();
+
+        // Obtener resultados
+        $resultado = $stmt->get_result();
+
+        if ($fila = $resultado->fetch_assoc()) {
+            
+            if ($email && password_verify($psw, $fila['contraseña'])) {
+                echo "Bienvenido, " . $fila['nombreApellido'];
+                $_SESSION['email'] = $_POST['email'];
+                $_SESSION['password'] = $_POST['password'];
+            } else {
+                echo "Usuario incorrecto";
+            }
+        }
     }
 
     public function lougout(): void

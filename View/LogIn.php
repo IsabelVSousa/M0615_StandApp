@@ -1,0 +1,95 @@
+<?php
+session_start();
+
+
+
+// <?php
+// if(isset($_POST['btningresar']))
+// {
+// $correo = $_POST["txtcorreo"];
+// $pass 	= $_POST["txtpassword"];
+
+// $buscandousu = mysqli_query($conn,"SELECT * FROM usuarios WHERE correo = '".$correo."' and pass = '".$pass."'");
+// $nr = mysqli_num_rows($buscandousu);
+
+// if($nr == 1)
+// {
+// $_SESSION['usuarioingresando']=$correo;
+// header("Location: principal.php");
+// }
+// else if ($nr == 0) 
+// {
+// echo "<script> alert('Usuario no existe');window.location= 'index.php' </script>";
+// }
+// }
+// ?>
+<!-- 
+$stmt->close();
+$conexion->close();
+?> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="LogIn.css">
+</head>
+
+<body>
+    <div class="page">
+        <header>
+            <h1>Bienvenido a Stand App</h1>
+            <p>Regístrate o inicia sesión para descubrir shows de comedia, reservar tus entradas y no perderte ningún
+                show.
+            </p>
+        </header>
+        <main>
+            <div>
+                <section>
+                    <h2>Inicia sesión para ver más</h2>
+                    <form action="../Controller/UserController.php" method="post">
+                        <div class="g_form">
+                            <label for="email">Correo electrónico</label>
+                            <input type="text" id="email" name="email" placeholder="ejemplo@gmail.com">
+                        </div>
+                        <div class="g_form">
+                            <label for="password">Contraseña</label>
+                            <input type="text" id="password" name="password" placeholder="contraseña">
+                        </div>
+                        <button type="submit" name="login">Iniciar sesión</button>
+                        <!-- <input type="submit" value="Iniciar sesión"> -->
+                    </form>
+                </section>
+            </div>
+            <section class="g_enlaces">
+                <!-- Añadimos el recuperar contraseña aunque no esté habilitado aún -->
+                <a href="#">¿Olvidaste tu contraseña?</a>
+                <p>O</p>
+            </section>
+            <div class="g_enlaces">
+                <section class="enlaces">
+                    <p>¿Aún no tienes cuenta en Stand App?</p>
+                    <a href="register.html">Regístrate</a>
+                </section>
+                <section class="enlaces">
+                    <p>¿Eres organizador de stand ups de comedia?</p>
+                    <a href="register.html">Regístrate</a>
+                </section>
+                <!-- <p>Si continúas, aceptas los Términos del servicio de Stand App y confirmas que has leído nuestra Política
+                de
+                privacidad. Aviso de recopilación de datos.</p> -->
+            </div>
+        </main>
+    </div>
+    <footer>
+        <p>© 2026 Proyecto Stand App</p>
+    </footer>
+</body>
+
+</html>
