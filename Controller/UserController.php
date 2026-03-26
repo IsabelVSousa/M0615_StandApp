@@ -76,15 +76,20 @@ class UserController
 
         // Obtener resultados
         $resultado = $stmt->get_result();
-
+        
         if ($fila = $resultado->fetch_assoc()) {
             
-            if ($email && password_verify($psw, $fila['contraseña'])) {
+            if ($psw==$fila['contraseña']){
                 echo "Bienvenido, " . $fila['nombreApellido'];
                 $_SESSION['email'] = $_POST['email'];
                 $_SESSION['password'] = $_POST['password'];
+                header("Location: ../View/perfil.html");
+                exit;
             } else {
                 echo "Usuario incorrecto";
+                // header("Location: ../View/perfil.html");
+                header("Location: ../View/LogIn.php");
+                exit;
             }
         }
     }
