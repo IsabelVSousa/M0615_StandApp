@@ -30,7 +30,7 @@ a {
 .top-bar {
     background-color: var(--primary-orange);
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     padding: 10px 0;
     font-size: 0.85rem;
 }
@@ -44,7 +44,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 120px;
+    gap: 330px;
 }
 
 .nav-left {
@@ -180,7 +180,7 @@ a {
 /*TARJETA PRINCIPAL (HERO)*/
 .hero-card {
     background-color: var(--card-bg);
-    margin: 0 20px;
+    margin: 0 40px;
     border-radius: 15px;
     overflow: hidden;
     min-height: 00px;
@@ -189,9 +189,32 @@ a {
     justify-content: space-between;
 }
 
+video {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 0% 100%;
+    z-index: 1;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 15px;
+}
+
+.texto-encima {
+    position: relative;
+    z-index: 2;
+}
+
 .card-content {
+    position: relative;
     padding: 50px;
-    min-height: 400px;
+    min-height: 500px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .card-content h1 {
@@ -215,7 +238,6 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: right;
-    margin-top: 50px;
 }
 
 .events-outstand {
@@ -224,7 +246,7 @@ a {
     border-radius: 15px;
     overflow: hidden;
     min-height: 520px;
-    min-width: 300px;
+    min-width: 320px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -236,7 +258,7 @@ a {
     border-radius: 15px;
     overflow: hidden;
     min-height: 520px;
-    min-width: 520px;
+    min-width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -296,15 +318,19 @@ a {
     flex-direction: row;
     flex-flow: wrap;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 25px;
+    padding-bottom: 70px;
 }
 
 .next-event {
-    max-width: 350px;
+    display: block;
+    max-width: 460px;
     cursor: auto;
-    flex: 0 31.5%;
+    /* flex: 0 31.5%; */
     padding: 2rem;
     position: relative;
+    background-color: #252525;
 }
 
 h3.next-event {
@@ -317,9 +343,12 @@ h3.next-event {
 
 img.next-event {
     object-fit: cover;
-    object-position: 50% 0%;
+    object-position: 50% 20%;
     width: 100%;
-    height: 16rem;
+    height: 20rem;
+    min-width: 300px;
+    min-height: 315px;
+    padding: unset;
 }
 
 .button-next {
@@ -345,7 +374,7 @@ img.next-event {
     background-color: #252525;
     padding: 20px 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
 }
 
@@ -362,6 +391,7 @@ img.next-event {
     transition: 0.3s;
     text-decoration: none;
     display: inline-block;
+    margin-top: 20px;
 }
 
 .btn-book:hover {
@@ -410,11 +440,11 @@ img.next-event {
 }
 
 .comentary-card {
-    min-height: auto;
-    max-width: 280px;
+    height: 335px;
+    max-width: 315px;
     display: flex;
     flex-direction: column;
-    justify-content: right;
+    justify-content: space-between;
     margin-top: 50px;
 }
 
@@ -791,7 +821,7 @@ img.next-event {
 
     .events-outstand:first-child {
         width: -webkit-fill-available;
-        
+
     }
 
     .events-outstand:nth-child(2),
