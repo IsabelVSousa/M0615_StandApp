@@ -50,11 +50,11 @@ session_start();
             <div class="g_enlaces">
                 <section class="enlaces">
                     <p>¿Aún no tienes cuenta en Stand App?</p>
-                    <a href="register.html">Regístrate</a>
+                    <a href="register.php">Regístrate</a>
                 </section>
                 <section class="enlaces">
                     <p>¿Eres organizador de stand ups de comedia?</p>
-                    <a href="register.html">Regístrate</a>
+                    <a href="register_Admin.php">Regístrate</a>
                 </section>
                 <!-- <p>Si continúas, aceptas los Términos del servicio de Stand App y confirmas que has leído nuestra Política
                 de

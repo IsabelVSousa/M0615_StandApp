@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -36,7 +41,7 @@
             </div>
 
 
-            
+
             <div class="botones-navegacion">
                 <a href="LogIn.html" class="boton boton-contorno">Iniciar Sesión</a>
                 <a href="register.html" class="boton boton-blanco">Registrarse</a>
@@ -52,10 +57,10 @@
 
                 <div class="foto-perfil">
                     <label for="entrada-foto" class="placeholder-foto">
-                        <i class="fas fa-smile"></i>
-                        <!-- <span>Agregar foto</span> -->
+                        <i class="fas fa-user"></i>
+                        <span>Agregar foto</span>
                     </label>
-                    <!-- <input type="file" id="entrada-foto" accept="image/*" hidden> -->
+                    <input type="file" id="entrada-foto" accept="image/*" hidden>
                 </div>
 
                 <form class="formulario-registro" action="../Controller/UserController.php" method="post">
@@ -66,8 +71,8 @@
                     </div>
 
                     <div class="grupo-formulario">
-                        <label>Apellido</label>
-                        <input type="text" placeholder="Apellido">
+                        <label>NIF</label>
+                        <input type="text" placeholder="NIF">
                     </div>
 
                     <div class="grupo-formulario">
@@ -82,12 +87,12 @@
 
                     <div class="grupo-formulario">
                         <label>Contraseña</label>
-                        <input type="password">
+                        <input type="password" placeholder="Debe tener entre 8 - 20 caracteres">
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Confirmar contraseña</label>
-                        <input type="password">
+                        <input type="password" placeholder="Confimar contraseña">
                     </div>
 
                     <div class="acciones-formulario">
@@ -105,7 +110,7 @@
 
                 <div>
                     <div class="separator-line"></div>
-                    <div class="text-size-regular footer-text">Dunia Catari / Isabel Sousa / Mauricio Patiño
+                    <div class="text-size-regular footer-text"> Isabel Sousa / Mauricio Patiño
                     </div>
                     <div class="separator-line"></div>
                     <div class="text-size-regular footer-text">Stucom Proyecto M0615 UX/UI</div>

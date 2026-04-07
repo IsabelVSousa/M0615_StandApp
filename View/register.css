@@ -314,6 +314,20 @@ body {
     cursor: pointer;
 }
 
+ .enlaces {
+     display: flex;
+     flex-direction: row;
+     justify-content: center;
+     align-items: center;
+     margin: -10px;
+     color: var(--text-white);
+ }
+
+a {
+     /* display: grid; */
+     font-family: outfit;
+     color: white;
+ }
 
 /* MEDIA QUERIES */
 

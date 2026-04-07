@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -36,7 +41,7 @@
             </div>
 
 
-            
+
             <div class="botones-navegacion">
                 <a href="LogIn.html" class="boton boton-contorno">Iniciar Sesión</a>
                 <a href="register.html" class="boton boton-blanco">Registrarse</a>
@@ -52,13 +57,15 @@
 
                 <div class="foto-perfil">
                     <label for="entrada-foto" class="placeholder-foto">
-                        <i class="fas fa-user"></i>
-                        <span>Agregar foto</span>
+                        <i class="fas fa-smile"></i>
+                        <!-- <span>Agregar foto</span> -->
                     </label>
-                    <input type="file" id="entrada-foto" accept="image/*" hidden>
+                    <!-- <input type="file" id="entrada-foto" accept="image/*" hidden> -->
                 </div>
 
-                <form class="formulario-registro">
+
+
+                <form class="formulario-registro" action="../Controller/UserController.php" method="post">
 
                     <div class="grupo-formulario">
                         <label>Nombre</label>
@@ -66,8 +73,8 @@
                     </div>
 
                     <div class="grupo-formulario">
-                        <label>NIF</label>
-                        <input type="text" placeholder="NIF">
+                        <label>Apellido</label>
+                        <input type="text" placeholder="Apellido">
                     </div>
 
                     <div class="grupo-formulario">
@@ -82,12 +89,12 @@
 
                     <div class="grupo-formulario">
                         <label>Contraseña</label>
-                        <input type="password" placeholder="Debe tener entre 8 - 20 caracteres">
+                        <input type="password">
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Confirmar contraseña</label>
-                        <input type="password" placeholder="Confimar contraseña">
+                        <input type="password">
                     </div>
 
                     <div class="acciones-formulario">
@@ -97,6 +104,10 @@
 
                 </form>
             </div>
+            <section class="enlaces">
+                <p>¿Eres organizador de stand ups de comedia?</p>
+                <a href="register_Admin.php">Regístrate</a>
+            </section>
         </div>
     </section>
     <footer class="footer-section">
@@ -105,7 +116,7 @@
 
                 <div>
                     <div class="separator-line"></div>
-                    <div class="text-size-regular footer-text">Dunia Catari / Isabel Sousa / Mauricio Patiño
+                    <div class="text-size-regular footer-text"> Isabel Sousa / Mauricio Patiño
                     </div>
                     <div class="separator-line"></div>
                     <div class="text-size-regular footer-text">Stucom Proyecto M0615 UX/UI</div>
