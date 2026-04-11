@@ -85,7 +85,7 @@ class UserController
                 echo "Bienvenido, " . $fila['nombreApellido'];
                 $_SESSION['email'] = $_POST['email'];
                 $_SESSION['password'] = $_POST['password'];
-                header("Location: ../View/perfil.html");
+                header("Location: ../View/perfil.php");
                 exit;
             } else {
                 echo "Contraseña incorrecta";
@@ -103,18 +103,14 @@ class UserController
 
     public function lougout(): void
     {
-        // Source - https://stackoverflow.com/a/3512570
-        // Posted by Freyja
-        // Retrieved 2026-04-11, License - CC BY-SA 2.5
-
 
         // Initialize the session.
         // If you are using session_name("something"), don't forget it now!
         session_start();
 
         // Unset all of the session variables.
-        //session_unset();???
-        $_SESSION = array();
+        session_unset();
+        // $_SESSION = array();
 
         // If it's desired to kill the session, also delete the session cookie.
         // Note: This will destroy the session, and not just the session data!
@@ -135,6 +131,9 @@ class UserController
 
         // Finally, destroy the session.
         session_destroy();
+
+        header("Location: ../View/LogIn.php");
+        exit();
     }
 
     public function register(): void

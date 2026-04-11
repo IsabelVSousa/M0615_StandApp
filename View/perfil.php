@@ -1,5 +1,11 @@
+<?php
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,37 +14,40 @@
     <link rel="stylesheet" href="perfil.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <nav class="navbar">
-    <input type="checkbox" id="menu-toggle">
+        <input type="checkbox" id="menu-toggle">
 
-    <div class="nav-left">
-        <div class="logo-circle">
-            <img src="/M0615_StandApp/img/logotipo2_StandApp_Dunia.png" alt="Logo">
-        </div>
-        <div class="tittle">STAND-APP</div>
-    </div>
-
-    <label for="menu-toggle" class="hamburger-icon">
-        <span class="material-icons-round">menu</span>
-    </label>
-
-    <div class="nav-menu-group">
-        <div class="nav-links">
-            <a href="Event.html">Descuentos</a>
-            <a href="foro.html">Foro</a>
-            <a href="organizadores.html">Organizadores</a>
+        <div class="nav-left">
+            <div class="logo-circle">
+                <img src="/M0615_StandApp/img/logotipo2_StandApp_Dunia.png" alt="Logo">
+            </div>
+            <div class="tittle">STAND-APP</div>
         </div>
 
-        <div class="nav-right">
-             <a href="LogIn.html" class="btn btn-outline">Cerrar Sesión</a>
+        <label for="menu-toggle" class="hamburger-icon">
+            <span class="material-icons-round">menu</span>
+        </label>
+
+        <div class="nav-menu-group">
+            <div class="nav-links">
+                <a href="Event.html">Descuentos</a>
+                <a href="foro.html">Foro</a>
+                <a href="organizadores.html">Organizadores</a>
+            </div>
+
+            <div class="nav-right">
+                <form action="../Controller/UserController.php" method="post">
+                    <button type="submit" name="logout" class="btn btn-outline">Cerrar Sesión</button>
+                </form>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <main class="profile-container">
-        
+
         <div class="user-section">
             <div class="user-circle">
                 <span class="material-icons-round user-icon">person_outline</span>
@@ -46,7 +55,7 @@
         </div>
 
         <div class="cards-grid">
-            
+
             <div class="card card-wide">
                 <span class="material-icons-round settings-icon">settings</span>
                 <div class="data">Lorem Ipsum</div>
@@ -75,4 +84,5 @@
     </main>
 
 </body>
+
 </html>
