@@ -76,27 +76,65 @@ class UserController
 
         // Obtener resultados
         $resultado = $stmt->get_result();
-        
+
         if ($fila = $resultado->fetch_assoc()) {
-            
-            if ($psw==$fila['contraseña']){
+
+            if ($psw == $fila['contraseña']) {
+                $_SESSION['usuario_id'] = $fila['IDPERSONA'];
+
                 echo "Bienvenido, " . $fila['nombreApellido'];
                 $_SESSION['email'] = $_POST['email'];
                 $_SESSION['password'] = $_POST['password'];
                 header("Location: ../View/perfil.html");
                 exit;
             } else {
-                echo "Usuario incorrecto";
-                // header("Location: ../View/perfil.html");
+                echo "Contraseña incorrecta";
                 header("Location: ../View/LogIn.php");
                 exit;
             }
+
+            //si el email no esta asociado a la bbdd 
+        } else {
+            echo "El email no está asociado a una cuenta vinculada a esta página web";
+            header("Location: ../View/LogIn.php");
+            exit;
         }
     }
 
     public function lougout(): void
     {
-        echo "logout";
+        // Source - https://stackoverflow.com/a/3512570
+        // Posted by Freyja
+        // Retrieved 2026-04-11, License - CC BY-SA 2.5
+
+
+        // Initialize the session.
+        // If you are using session_name("something"), don't forget it now!
+        session_start();
+
+        // Unset all of the session variables.
+        //session_unset();???
+        $_SESSION = array();
+
+        // If it's desired to kill the session, also delete the session cookie.
+        // Note: This will destroy the session, and not just the session data!
+
+        //hace falta hacer este paso de las cookies??
+        // if (ini_get("session.use_cookies")) {
+        //     $params = session_get_cookie_params();
+        //     setcookie(
+        //         session_name(),
+        //         '',
+        //         time() - 42000,
+        //         $params["path"],
+        //         $params["domain"],
+        //         $params["secure"],
+        //         $params["httponly"]
+        //     );
+        // }
+
+        // Finally, destroy the session.
+        session_destroy();
     }
 
     public function register(): void
