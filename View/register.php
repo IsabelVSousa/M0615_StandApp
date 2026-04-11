@@ -67,41 +67,44 @@ session_start();
 
                 <form class="formulario-registro" action="../Controller/UserController.php" method="post">
 
+                    <!-- Campo oculto que indica que es usuario estándar -->
+                    <input type="hidden" name="tipo" value="standard">
+
                     <div class="grupo-formulario">
                         <label>Nombre</label>
-                        <input type="text" placeholder="Nombre">
+                        <input type="text" name="nombre" placeholder="Nombre">
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Apellido</label>
-                        <input type="text" placeholder="Apellido">
+                        <input type="text" name="apellido" placeholder="Apellido">
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Correo electrónico</label>
-                        <input type="email" placeholder="correo@email.com">
+                        <input type="email" name="email" placeholder="correo@email.com">
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Teléfono</label>
-                        <input type="tel" placeholder="+34 000 00 00 00">
+                        <input type="tel" name="telefono" placeholder="+34 000 00 00 00">
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Contraseña</label>
-                        <input type="password">
+                        <input type="password" name="password" pattern=".{8,20}"
+                            title="La contraseña debe tener entre 8 y 20 caracteres" required>
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Confirmar contraseña</label>
-                        <input type="password">
+                        <input type="password" name="password2">
                     </div>
 
                     <div class="acciones-formulario">
                         <button type="button" class="boton-cancelar">Cancelar</button>
-                        <button type="submit" class="boton-enviar">Registrarse</button>
+                        <button type="submit" name="register" class="boton-enviar">Registrarse</button>
                     </div>
-
                 </form>
             </div>
             <section class="enlaces">

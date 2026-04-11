@@ -63,43 +63,51 @@ session_start();
                     <input type="file" id="entrada-foto" accept="image/*" hidden>
                 </div>
 
-                <form class="formulario-registro" action="../Controller/UserController.php" method="post">
+                <form class="formulario-registro" action="../Controller/UserController.php" method="post"
+                    enctype="multipart/form-data">
+
+                    <input type="hidden" name="tipo" value="admin">
 
                     <div class="grupo-formulario">
                         <label>Nombre</label>
-                        <input type="text" placeholder="Nombre">
+                        <input type="text" name="nombre" placeholder="Nombre">
                     </div>
 
                     <div class="grupo-formulario">
-                        <label>NIF</label>
-                        <input type="text" placeholder="NIF">
+                        <label>NIF/DNI</label>
+                        <input type="text" name="apellido" placeholder="NIF">
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Correo electrónico</label>
-                        <input type="email" placeholder="correo@email.com">
+                        <input type="email" name="email" placeholder="correo@email.com">
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Teléfono</label>
-                        <input type="tel" placeholder="+34 000 00 00 00">
+                        <input type="tel" name="telefono" placeholder="+34 000 00 00 00">
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Contraseña</label>
-                        <input type="password" placeholder="Debe tener entre 8 - 20 caracteres">
+                        <input type="password" name="password" placeholder="Mínimo 8 caracteres">
                     </div>
 
                     <div class="grupo-formulario">
                         <label>Confirmar contraseña</label>
-                        <input type="password" placeholder="Confimar contraseña">
+                        <input type="password" name="password2" placeholder="Confirmar contraseña">
+                    </div>
+
+                    <!-- Imagen de perfil (req. 2.5) -->
+                    <div class="grupo-formulario">
+                        <label>Foto de perfil</label>
+                        <input type="file" name="imagen" accept="image/*">
                     </div>
 
                     <div class="acciones-formulario">
                         <button type="button" class="boton-cancelar">Cancelar</button>
-                        <button type="submit" class="boton-enviar">Registrarse</button>
+                        <button type="submit" name="register" class="boton-enviar">Registrarse</button>
                     </div>
-
                 </form>
             </div>
         </div>

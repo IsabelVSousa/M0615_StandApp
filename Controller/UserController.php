@@ -138,7 +138,50 @@ class UserController
     }
 
     public function register(): void
-    {
-        echo "register";
+{
+        $nombre   = trim($_POST['nombre'] ?? '');
+        $apellido = trim($_POST['apellido'] ?? '');
+        $email    = trim($_POST['email'] ?? '');
+        $telefono = trim($_POST['telefono'] ?? '');
+        $psw      = $_POST['password'] ?? '';
+        $psw2     = $_POST['password2'] ?? '';
+        $tipo     = $_POST['tipo'] ?? 'standard';
+
+        if (empty($nombre) || empty($email) || empty($psw)) {
+            header("Location: ../View/register.php?error=campos_vacios");
+            exit;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Con esta linea filtramos el emali para que las personas pongan el formato correcto
+            header("Location: ../View/register.php?error=email_invalido");
+            exit;
+        }
+// En register.php lineas 95 y 96 sale el pop up de contraseña no existe un validador como el del email perro
+        if (strlen($psw) < 8 || strlen($psw) > 20) { // Este nos funcina para limitar la clave entre 8 y 20 caracteres 
+            header("Location: ../View/register.php?error=password_corta");
+            exit;
+        }
+
+        if ($psw !== $psw2) { // Con esto validamos que las contraseñas sean iguales
+            header("Location: ../View/register.php?error=passwords_no_coinciden");
+            exit;
+        }
+
+       
+        $pswHash = password_hash($psw, PASSWORD_DEFAULT);  // Este nos va a servir para ocultar las contraseñas
+
+// ESTO LO REVISO PORQUE ES DIRECTO CON LA BBDD Y EL XAMMP NO CARGA
+
+        // $nombreApellido = $nombre . ' ' . $apellido;
+        // // IDPersona se genera con uniqid
+        // $idPersona = uniqid();
+
+
+        // $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
+        // $check->bind_param("s", $email);
+        // $check->execute();
+        // $check->store_result();
+
     }
+
 }
