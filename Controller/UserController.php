@@ -93,7 +93,6 @@ class UserController
                 exit;
             }
 
-            //si el email no esta asociado a la bbdd 
         } else {
             echo "El email no está asociado a una cuenta vinculada a esta página web";
             header("Location: ../View/LogIn.php?error=2");
@@ -171,15 +170,38 @@ class UserController
 
 // ESTO LO REVISO PORQUE ES DIRECTO CON LA BBDD Y EL XAMMP NO CARGA
 
-        // $nombreApellido = $nombre . ' ' . $apellido;
-        // // IDPersona se genera con uniqid
-        // $idPersona = uniqid();
+        $nombreApellido = $nombre . ' ' . $apellido;
+        // IDPersona se genera con uniqid
+        $idPersona = uniqid();
 
 
-        // $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
-        // $check->bind_param("s", $email);
-        // $check->execute();
-        // $check->store_result();
+        $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
+        $check->bind_param("s", $email);
+        $check->execute();
+        $check->store_result();
+        if ($check->num_rows > 0) {
+            header("Location: ../View/register.php?error=email_ya_registrado");
+            exit;
+        }
+
+        // Insertar en base de datos
+        $sql  = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefono, $email, $pswHash);
+
+        if ($stmt->execute()) {
+            // Imagen de perfil solo para admin (req. 2.5)
+            if ($tipo === 'admin' && isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
+                $destino = "../View/img/perfiles/" . $idPersona . "_" . basename($_FILES['imagen']['name']);
+                move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
+            }
+
+            header("Location: ../View/Home.html?exito=registro_ok");
+            exit;
+        } else {
+            header("Location: ../View/register.php?error=error_bd");
+            exit;
+        }
 
     }
 
