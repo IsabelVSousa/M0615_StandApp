@@ -1,7 +1,58 @@
 <?php
 session_start();
 
-?>
+//Crear array de mensajes predeterminados
+$mensajes = [
+    "1" => "Contraseña incorrecta.",
+    "2" => "El email no existe.",
+    // "campos_vacios" => "Rellena todos los campos."
+];
+
+// 2. Miramos si hay un error en la URL
+// si existe el error recogelo, sino string vacio
+$error_id = $_GET['error'] ?? '';
+
+// 3. Si el error existe en nuestro diccionario, preparamos el texto
+$mensaje_error = $mensajes[$error_id] ?? '';
+
+if ($mensaje_error): ?>
+    <div style="
+        background-color: var(--bg-dark) !important;
+        color: var(--text-white) !important;
+        font-family: 'Outfit', sans-serif !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 12px 16px !important;
+        margin-bottom: 20px !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    ">
+        <span style="
+            background-color: var(--primary-orange) !important;
+            color: white !important;
+            width: 22px !important;
+            height: 22px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border-radius: 50% !important;
+            margin-right: 12px !important;
+            font-weight: 900 !important;
+            font-size: 14px !important;
+            flex-shrink: 0 !important;
+            ">!</span>
+        <span style="font-size: 0.95rem !important; font-weight: 500 !important;">
+            <?php echo $mensaje_error; ?>
+        </span>
+    </div>
+    
+    <!-- // Cierra el condicional. 
+    //Si $mensaje_error estaba vacío, todo el bloque de la caja (el div) se ignora por completo y no aparece en la página. -->
+    <?php endif; ?>
+    
 
 <!DOCTYPE html>
 <html lang="en">

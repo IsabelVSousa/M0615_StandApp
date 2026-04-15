@@ -88,15 +88,15 @@ class UserController
                 header("Location: ../View/perfil.php");
                 exit;
             } else {
-                echo "Contraseña incorrecta";
-                header("Location: ../View/LogIn.php");
+                // echo "Contraseña incorrecta";
+                header("Location: ../View/LogIn.php?error=1");
                 exit;
             }
 
             //si el email no esta asociado a la bbdd 
         } else {
             echo "El email no está asociado a una cuenta vinculada a esta página web";
-            header("Location: ../View/LogIn.php");
+            header("Location: ../View/LogIn.php?error=2");
             exit;
         }
     }
