@@ -134,7 +134,7 @@ class UserController
             header("Location: ../View/register.php?error=email_invalido");
             exit;
         }
-        
+
         if (!preg_match('/^6[0-9]{8}$/', $telefono)) {
             header("Location: ../View/register.php?error=telefono_invalido");
             exit;
@@ -183,7 +183,7 @@ class UserController
                 move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
             }
 
-            header("Location: ../View/Home.html?exito=registro_ok");
+            header("Location: ../View/Home.php?exito=registro_ok");
             exit;
         } else {
             header("Location: ../View/register.php?error=error_bd");
@@ -194,7 +194,7 @@ class UserController
     public function register_Admin(): void
     {
         $nombre = trim($_POST['nombre'] ?? '');
-        $apellido = trim($_POST['NIF'] ?? '');
+        $nif = trim($_POST['nif'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $telefono = trim($_POST['telefono'] ?? '');
         $psw = $_POST['password'] ?? '';
@@ -205,17 +205,23 @@ class UserController
             header("Location: ../View/register_Admin.php?error=campos_vacios");
             exit;
         }
-        
-        if (!preg_match('/^6[0-9]{8}$/', $telefono)) {
-            header("Location: ../View/register.php?error=telefono_invalido");
+
+        $nif_limpio = strtoupper(trim($nif)); // Este nos va a servir para que las letras ingresadas sean en mayuscula
+
+        $esDNI = preg_match('/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/', $nif_limpio);
+        $esNIE = preg_match('/^[XYZ][0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKE]$/', $nif_limpio);
+        $esEmpresa = preg_match('/^[ABCDEFGHJNPQRSUVW][0-9]{7}[0-9A-J]$/', $nif_limpio);
+
+        if (!$esDNI && !$esNIE && !$esEmpresa) {
+            header("Location: ../View/register_Admin.php?error=nif_invalido");
             exit;
-        }        
+        }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Con esta linea filtramos el emali para que las personas pongan el formato correcto
             header("Location: ../View/register.php?error=email_invalido");
             exit;
         }
-        
+
         if (!preg_match('/^6[0-9]{8}$/', $telefono)) {
             header("Location: ../View/register.php?error=telefono_invalido");
             exit;
@@ -236,9 +242,7 @@ class UserController
         // $pswHash = password_hash($psw, PASSWORD_DEFAULT);  // Este nos va a servir para ocultar las contraseñas pero debemos ajustar tambien el login
 
         $telefonoConPrefijo = "+34 " . $telefono;
-        // ESTO LO REVISO PORQUE ES DIRECTO CON LA BBDD Y EL XAMMP NO CARGA
-
-        $nombreApellido = $nombre . ' ' . $apellido;
+        $nif_limpio = $nombre . ' ' . $nif;
         // IDPersona se genera con uniqid
         $idPersona = uniqid();
 
@@ -255,7 +259,7 @@ class UserController
         // Insertar en base de datos
         $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw);
+        $stmt->bind_param("ssssss", $idPersona, $tipo, $nif_limpio, $telefonoConPrefijo, $email, $psw);
 
         if ($stmt->execute()) {
             // Imagen de perfil solo para admin (req. 2.5)
@@ -264,7 +268,7 @@ class UserController
                 move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
             }
 
-            header("Location: ../View/Home.html?exito=registro_ok");
+            header("Location: ../View/Home.php?exito=registro_ok");
             exit;
         } else {
             header("Location: ../View/register.php?error=error_bd");

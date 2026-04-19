@@ -52,7 +52,23 @@ session_start();
         <div class="tarjeta-registro">
 
             <h1 class="titulo-registro">Registro</h1>
+            <?php
+            if (isset($_GET['error'])) {
+                $errores = [
+                    'campos_vacios' => 'Por favor rellena todos los campos.',
+                    'email_invalido' => 'El formato del correo no es válido.',
+                    'telefono_invalido' => 'El teléfono debe empezar por 6 y tener 9 dígitos.',
+                    'password_corta' => 'La contraseña debe tener entre 8 y 20 caracteres.',
+                    'passwords_no_coinciden' => 'Las contraseñas no coinciden.',
+                    'email_ya_registrado' => 'Este correo ya está registrado.',
+                    'error_bd' => 'Error al guardar. Inténtalo de nuevo.',
+                ];
 
+                if (array_key_exists($_GET['error'], $errores)) {
+                    echo '<p style="color:red;">' . $errores[$_GET['error']] . '</p>';
+                }
+            }
+            ?>
             <div class="layout-registro">
 
                 <div class="foto-perfil">
