@@ -67,7 +67,7 @@ class UserController
         // necesita que exista las dos cosas para poder enviar el post
 
         // Preparar consulta, falta password
-        $sql = "SELECT IDPERSONA, nombreApellido, email, contraseña  FROM persona WHERE email = ? ";
+        $sql = "SELECT IDPERSONA, nombreApellido, email, contraseña, tipo  FROM persona WHERE email = ? ";
 
 
         $stmt = $this->conn->prepare($sql);
@@ -85,6 +85,7 @@ class UserController
 
             if ($psw == $fila['contraseña']) {
                 $_SESSION['usuario_id'] = $fila['IDPERSONA'];
+                $_SESSION['tipo'] = $fila['tipo'];
 
                 echo "Bienvenido, " . $fila['nombreApellido'];
                 $_SESSION['email'] = $_POST['email'];
@@ -106,33 +107,8 @@ class UserController
 
     public function lougout(): void
     {
-
-        // Initialize the session.
-        // If you are using session_name("something"), don't forget it now!
         session_start();
-
-        // Unset all of the session variables.
         session_unset();
-        // $_SESSION = array();
-
-        // If it's desired to kill the session, also delete the session cookie.
-        // Note: This will destroy the session, and not just the session data!
-
-        //hace falta hacer este paso de las cookies??
-        // if (ini_get("session.use_cookies")) {
-        //     $params = session_get_cookie_params();
-        //     setcookie(
-        //         session_name(),
-        //         '',
-        //         time() - 42000,
-        //         $params["path"],
-        //         $params["domain"],
-        //         $params["secure"],
-        //         $params["httponly"]
-        //     );
-        // }
-
-        // Finally, destroy the session.
         session_destroy();
 
         header("Location: ../View/LogIn.php");

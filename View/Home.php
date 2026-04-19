@@ -1,3 +1,28 @@
+<?php
+session_start();
+
+// Decidimos el destino y el texto del botón
+if (isset($_SESSION['usuario_id'])) {
+    if ($_SESSION['tipo'] == 'admin') {
+        $destino = "Event.html";
+        $destinoorg = "Event.html";
+        $destinoperf = "perfil.php";
+        echo "hello admin!";
+    } else {
+        $destino = "Event.html";
+        $destinoorg = "login.php";
+        $destinoperf = "perfil.php";
+        echo "para cerrar sesión vaya al perfil";
+    }
+} else {
+    $destino = "login.php";
+    $destinoorg = "login.php";
+    $destinoperf = "login.php";
+    echo "iniciar sesion para ver mas";
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,14 +69,15 @@
                 <div class="nav-links">
                     <a href="Event.html">Descuentos</a>
                     <a href="foro.html">Foro</a>
-                    <a href="organizadores.html">Organizadores</a>
+                    <a href="<?php echo $destinoorg ?>">Organizadores</a>
+                    <a href="<?php echo $destinoperf ?>">Perfil</a>
                 </div>
                 <div class="nav-buttons">
                     <a href="LogIn.php" class="btn btn-outline">Iniciar Sesión</a>
                     <a href="register.php" class="btn btn-white">Registrarse</a>
                 </div>
             </nav>
-        </div>        
+        </div>
 
         <!-- BARRA DE BUSQUEDA -->
 
@@ -159,7 +185,7 @@
                         Humor fresco, improvisación y muchas risas en un ambiente cercano.
                     </p>
                     <div>
-                        <a href="Event.html" class="btn-book">Book Now</a>
+                        <a href=<?php echo $destino ?> class="btn-book">Book Now</a>
                     </div>
                 </div>
             </div>
@@ -178,7 +204,7 @@
             <div class="outstand-card">
                 <div class="events-content">
                     <h1>Comediantes destacados</h1>
-                    <a style="color: #ffffff;" href="Event.html" target="_blank">Descubre más</a>
+                    <a style="color: #ffffff;" href=<?php echo $destino ?> target="_blank">Descubre más</a>
                 </div>
                 <div class="collection-list">
                     <div class="events-outstand">
@@ -190,7 +216,7 @@
                             </video>
                         </div>
                         <div class="card-footer">
-                            <a href="Event.html" class="card-info-right">
+                            <a href=<?php echo $destino ?> class="card-info-right">
                                 <h3>Pablo Herrera</h3>
                                 <div class="arrow-icon">
                                     <i class="fa-solid fa-arrow-right"></i>
@@ -207,7 +233,7 @@
                             </video>
                         </div>
                         <div class="card-footer">
-                            <a href="Event.html" class="card-info-right">
+                            <a href=<?php echo $destino ?> class="card-info-right">
                                 <h3>Raúl Mendoza</h3>
                                 <div class="arrow-icon">
                                     <i class="fa-solid fa-arrow-right"></i>
@@ -224,7 +250,7 @@
                             </video>
                         </div>
                         <div class="card-footer">
-                            <a href="Event.html" class="card-info-right">
+                            <a href=<?php echo $destino ?> class="card-info-right">
                                 <h3>Víctor Prieto</h3>
                                 <div class="arrow-icon">
                                     <i class="fa-solid fa-arrow-right"></i>
@@ -239,7 +265,7 @@
                 <!-- EVENTOS PROXIMOS -->
                 <div class="events-content">
                     <h1>Próximos Eventos</h1>
-                    <a href="Event.html" target="_blank">Descubre más</a>
+                    <a href=<?php echo $destino ?> target="_blank">Descubre más</a>
                 </div>
                 <div class="collection-list">
                     <div class="outline next-event collection-list">
@@ -264,7 +290,7 @@
                             </div>
                             <div class="button-next">
                                 <div>
-                                    <a href="Event.html" class="btn-book">Book Now</a>
+                                    <a href=<?php echo $destino ?> class="btn-book">Book Now</a>
                                 </div>
                             </div>
                         </div>
@@ -291,7 +317,7 @@
                             </div>
                             <div class="button-next">
                                 <div>
-                                    <a href="Event.html" class="btn-book">Book Now</a>
+                                    <a href=<?php echo $destino ?> class="btn-book">Book Now</a>
                                 </div>
                             </div>
                         </div>
@@ -318,7 +344,7 @@
                             </div>
                             <div class="button-next">
                                 <div>
-                                    <a href="Event.html" class="btn-book">Book Now</a>
+                                    <a href=<?php echo $destino ?> class="btn-book">Book Now</a>
                                 </div>
                             </div>
                         </div>
@@ -331,10 +357,10 @@
             <section class="next-card">
                 <div class="events-content">
                     <h1>Comentarios</h1>
-                    <a href="https://www.ejemplo.com" target="_blank">Descubre más</a>
+                    <a href=<?php echo $destino ?> target="_blank">Descubre más</a>
                 </div>
                 <div class="collection-list">
-                    <a href="Event.html" target="_blank">
+                    <a href=<?php echo $destino ?> target="_blank">
                         <div class="card-footer outline comentary-card">
                             <div class="card-info-right">
                                 <img class="logo-circle" src="../View/img/profile1.jpg" alt="Imagen de reseña 1">
@@ -351,7 +377,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="Event.html" target="_blank">
+                    <a href=<?php echo $destino ?> target="_blank">
                         <div class="card-footer outline comentary-card">
                             <div class="card-info-right">
                                 <img class="logo-circle" src="../View/img/profile2.jpg" alt="Imagen de reseña 2">
@@ -369,7 +395,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="Event.html" target="_blank">
+                    <a href=<?php echo $destino ?> target="_blank">
                         <div class="card-footer outline comentary-card">
                             <div class="card-info-right">
                                 <img class="logo-circle" src="../View/img/profile3.jpg" alt="Imagen de reseña 3">
@@ -387,7 +413,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="Event.html" target="_blank">
+                    <a href=<?php echo $destino ?> target="_blank">
                         <div class="card-footer outline comentary-card">
                             <div class="card-info-right">
                                 <img class="logo-circle" src="../View/img/profile4.jpg" alt="Imagen de reseña 4">

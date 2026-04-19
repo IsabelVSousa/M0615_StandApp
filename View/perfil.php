@@ -22,7 +22,7 @@ session_start();
 
         <div class="nav-left">
             <div class="logo-circle">
-                <img src="/M0615_StandApp/img/logotipo2_StandApp_Dunia.png" alt="Logo">
+                <img src="/STAND_APP/img/logotipo2_StandApp_Dunia.png" alt="Logo">
             </div>
             <div class="tittle">STAND-APP</div>
         </div>
@@ -33,6 +33,7 @@ session_start();
 
         <div class="nav-menu-group">
             <div class="nav-links">
+                <a href="Home.php">Home</a>
                 <a href="Event.html">Descuentos</a>
                 <a href="foro.html">Foro</a>
                 <a href="organizadores.html">Organizadores</a>
