@@ -84,6 +84,7 @@ session_start();
                     enctype="multipart/form-data">
 
                     <input type="hidden" name="tipo" value="admin">
+                    <input type="file" id="imagen" name="imagen" accept="image/*" hidden>
 
                     <div class="grupo-formulario">
                         <label>Nombre</label>
@@ -115,15 +116,9 @@ session_start();
                         <input type="password" name="password2" placeholder="Confirmar contraseña">
                     </div>
 
-                    <!-- Imagen de perfil (req. 2.5) -->
-                    <div class="grupo-formulario">
-                        <label>Foto de perfil</label>
-                        <input type="file" name="imagen" accept="image/*">
-                    </div>
-
                     <div class="acciones-formulario">
                         <button type="button" class="boton-cancelar">Cancelar</button>
-                        <button type="submit" name="register" class="boton-enviar">Registrarse</button>
+                        <button type="submit" name="register_Admin" class="boton-enviar">Registrarse</button>
                     </div>
                 </form>
             </div>
