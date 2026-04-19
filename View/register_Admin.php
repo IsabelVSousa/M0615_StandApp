@@ -75,7 +75,7 @@ session_start();
 
                     <div class="grupo-formulario">
                         <label>NIF/DNI</label>
-                        <input type="text" name="apellido" placeholder="NIF">
+                        <input type="text" name="nif" placeholder="nif">
                     </div>
 
                     <div class="grupo-formulario">

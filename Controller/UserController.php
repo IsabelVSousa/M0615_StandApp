@@ -24,6 +24,10 @@ if (isset($_POST["register"])) {
     $userController->register();
 }
 
+if (isset($_POST["register_Admin"])) {
+    echo "<p>register_Admin click</p>";
+    $userController->register_Admin();
+}
 
 class UserController
 {
@@ -136,14 +140,14 @@ class UserController
     }
 
     public function register(): void
-{
-        $nombre   = trim($_POST['nombre'] ?? '');
+    {
+        $nombre = trim($_POST['nombre'] ?? '');
         $apellido = trim($_POST['apellido'] ?? '');
-        $email    = trim($_POST['email'] ?? '');
+        $email = trim($_POST['email'] ?? '');
         $telefono = trim($_POST['telefono'] ?? '');
-        $psw      = $_POST['password'] ?? '';
-        $psw2     = $_POST['password2'] ?? '';
-        $tipo     = $_POST['tipo'] ?? 'standard';
+        $psw = $_POST['password'] ?? '';
+        $psw2 = $_POST['password2'] ?? '';
+        $tipo = $_POST['tipo'] ?? 'standard';
 
         if (empty($nombre) || empty($email) || empty($psw)) {
             header("Location: ../View/register.php?error=campos_vacios");
@@ -154,7 +158,13 @@ class UserController
             header("Location: ../View/register.php?error=email_invalido");
             exit;
         }
-// En register.php lineas 95 y 96 sale el pop up de contraseña no existe un validador como el del email perro
+        
+        if (!preg_match('/^6[0-9]{8}$/', $telefono)) {
+            header("Location: ../View/register.php?error=telefono_invalido");
+            exit;
+        }
+
+        // En register.php lineas 95 y 96 sale el pop up de contraseña no existe un validador como el del email 
         if (strlen($psw) < 8 || strlen($psw) > 20) { // Este nos funcina para limitar la clave entre 8 y 20 caracteres 
             header("Location: ../View/register.php?error=password_corta");
             exit;
@@ -165,10 +175,11 @@ class UserController
             exit;
         }
 
-       
-        $pswHash = password_hash($psw, PASSWORD_DEFAULT);  // Este nos va a servir para ocultar las contraseñas
 
-// ESTO LO REVISO PORQUE ES DIRECTO CON LA BBDD Y EL XAMMP NO CARGA
+        // $pswHash = password_hash($psw, PASSWORD_DEFAULT);  // Este nos va a servir para ocultar las contraseñas pero debemos ajustar tambien el login
+
+        $telefonoConPrefijo = "+34 " . $telefono;
+        // ESTO LO REVISO PORQUE ES DIRECTO CON LA BBDD Y EL XAMMP NO CARGA
 
         $nombreApellido = $nombre . ' ' . $apellido;
         // IDPersona se genera con uniqid
@@ -185,9 +196,90 @@ class UserController
         }
 
         // Insertar en base de datos
-        $sql  = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefono, $email, $pswHash);
+        $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw);
+
+        if ($stmt->execute()) {
+            // Imagen de perfil solo para admin (req. 2.5)
+            if ($tipo === 'admin' && isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
+                $destino = "../View/img/perfiles/" . $idPersona . "_" . basename($_FILES['imagen']['name']);
+                move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
+            }
+
+            header("Location: ../View/Home.html?exito=registro_ok");
+            exit;
+        } else {
+            header("Location: ../View/register.php?error=error_bd");
+            exit;
+        }
+
+    }
+    public function register_Admin(): void
+    {
+        $nombre = trim($_POST['nombre'] ?? '');
+        $apellido = trim($_POST['NIF'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $telefono = trim($_POST['telefono'] ?? '');
+        $psw = $_POST['password'] ?? '';
+        $psw2 = $_POST['password2'] ?? '';
+        $tipo = $_POST['tipo'] ?? 'admin';
+
+        if (empty($nombre) || empty($email) || empty($psw)) {
+            header("Location: ../View/register_Admin.php?error=campos_vacios");
+            exit;
+        }
+        
+        if (!preg_match('/^6[0-9]{8}$/', $telefono)) {
+            header("Location: ../View/register.php?error=telefono_invalido");
+            exit;
+        }        
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Con esta linea filtramos el emali para que las personas pongan el formato correcto
+            header("Location: ../View/register.php?error=email_invalido");
+            exit;
+        }
+        
+        if (!preg_match('/^6[0-9]{8}$/', $telefono)) {
+            header("Location: ../View/register.php?error=telefono_invalido");
+            exit;
+        }
+
+        // En register.php lineas 95 y 96 sale el pop up de contraseña no existe un validador como el del email perro
+        if (strlen($psw) < 8 || strlen($psw) > 20) { // Este nos funcina para limitar la clave entre 8 y 20 caracteres 
+            header("Location: ../View/register.php?error=password_corta");
+            exit;
+        }
+
+        if ($psw !== $psw2) { // Con esto validamos que las contraseñas sean iguales
+            header("Location: ../View/register.php?error=passwords_no_coinciden");
+            exit;
+        }
+
+
+        // $pswHash = password_hash($psw, PASSWORD_DEFAULT);  // Este nos va a servir para ocultar las contraseñas pero debemos ajustar tambien el login
+
+        $telefonoConPrefijo = "+34 " . $telefono;
+        // ESTO LO REVISO PORQUE ES DIRECTO CON LA BBDD Y EL XAMMP NO CARGA
+
+        $nombreApellido = $nombre . ' ' . $apellido;
+        // IDPersona se genera con uniqid
+        $idPersona = uniqid();
+
+
+        $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
+        $check->bind_param("s", $email);
+        $check->execute();
+        $check->store_result();
+        if ($check->num_rows > 0) {
+            header("Location: ../View/register.php?error=email_ya_registrado");
+            exit;
+        }
+
+        // Insertar en base de datos
+        $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw);
 
         if ($stmt->execute()) {
             // Imagen de perfil solo para admin (req. 2.5)
