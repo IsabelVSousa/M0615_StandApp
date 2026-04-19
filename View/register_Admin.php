@@ -63,6 +63,7 @@ session_start();
                     'passwords_no_coinciden' => 'Las contraseñas no coinciden.',
                     'email_ya_registrado' => 'Este correo ya está registrado.',
                     'error_bd' => 'Error al guardar. Inténtalo de nuevo.',
+                    'imagen_requerida' => 'Agregue una imagen.',
                 ];
 
                 if (array_key_exists($_GET['error'], $errores)) {
@@ -73,11 +74,10 @@ session_start();
             <div class="layout-registro">
 
                 <div class="foto-perfil">
-                    <label for="entrada-foto" class="placeholder-foto">
+                    <label for="imagen" class="placeholder-foto">
                         <i class="fas fa-user"></i>
                         <span>Agregar foto</span>
                     </label>
-                    <input type="file" id="entrada-foto" accept="image/*" hidden>
                 </div>
 
                 <form class="formulario-registro" action="../Controller/UserController.php" method="post"

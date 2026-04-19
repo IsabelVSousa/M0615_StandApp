@@ -201,13 +201,18 @@ class UserController
         $psw2 = $_POST['password2'] ?? '';
         $tipo = $_POST['tipo'] ?? 'admin';
 
+        // INICIO VALIDACIONES
         if (empty($nombre) || empty($email) || empty($psw)) {
             header("Location: ../View/register_Admin.php?error=campos_vacios");
             exit;
         }
 
-        $nif_limpio = strtoupper(trim($nif)); // Este nos va a servir para que las letras ingresadas sean en mayuscula
+        if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== 0) {
+            header("Location: ../View/register_Admin.php?error=imagen_requerida");
+            exit;
+        }
 
+        $nif_limpio = strtoupper(trim($nif));
         $esDNI = preg_match('/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/', $nif_limpio);
         $esNIE = preg_match('/^[XYZ][0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKE]$/', $nif_limpio);
         $esEmpresa = preg_match('/^[ABCDEFGHJNPQRSUVW][0-9]{7}[0-9A-J]$/', $nif_limpio);
@@ -217,64 +222,60 @@ class UserController
             exit;
         }
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { // Con esta linea filtramos el emali para que las personas pongan el formato correcto
-            header("Location: ../View/register.php?error=email_invalido");
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            header("Location: ../View/register_Admin.php?error=email_invalido");
             exit;
         }
 
         if (!preg_match('/^6[0-9]{8}$/', $telefono)) {
-            header("Location: ../View/register.php?error=telefono_invalido");
+            header("Location: ../View/register_Admin.php?error=telefono_invalido");
             exit;
         }
 
-        // En register.php lineas 95 y 96 sale el pop up de contraseña no existe un validador como el del email perro
-        if (strlen($psw) < 8 || strlen($psw) > 20) { // Este nos funcina para limitar la clave entre 8 y 20 caracteres 
-            header("Location: ../View/register.php?error=password_corta");
+        if (strlen($psw) < 8 || strlen($psw) > 20) {
+            header("Location: ../View/register_Admin.php?error=password_corta");
             exit;
         }
 
-        if ($psw !== $psw2) { // Con esto validamos que las contraseñas sean iguales
-            header("Location: ../View/register.php?error=passwords_no_coinciden");
+        if ($psw !== $psw2) {
+            header("Location: ../View/register_Admin.php?error=passwords_no_coinciden");
             exit;
         }
-
-
-        // $pswHash = password_hash($psw, PASSWORD_DEFAULT);  // Este nos va a servir para ocultar las contraseñas pero debemos ajustar tambien el login
+        
+        // FIN VALIDACIONES
 
         $telefonoConPrefijo = "+34 " . $telefono;
-        $nif_limpio = $nombre . ' ' . $nif;
-        // IDPersona se genera con uniqid
-        $idPersona = uniqid();
-
+        $nombreApellido = $nombre . ' ' . $nif_limpio;
+        $idPersona = uniqid(); 
 
         $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
         $check->bind_param("s", $email);
         $check->execute();
         $check->store_result();
         if ($check->num_rows > 0) {
-            header("Location: ../View/register.php?error=email_ya_registrado");
+            header("Location: ../View/register_Admin.php?error=email_ya_registrado");
             exit;
         }
 
-        // Insertar en base de datos
         $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $idPersona, $tipo, $nif_limpio, $telefonoConPrefijo, $email, $psw);
+        $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw);
 
         if ($stmt->execute()) {
-            // Imagen de perfil solo para admin (req. 2.5)
-            if ($tipo === 'admin' && isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
-                $destino = "../View/img/perfiles/" . $idPersona . "_" . basename($_FILES['imagen']['name']);
-                move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
+
+            $carpeta = "../View/img/perfiles/";
+            if (!file_exists($carpeta)) {
+                mkdir($carpeta, 0777, true);
             }
+            $destino = $carpeta . $idPersona . "_" . basename($_FILES['imagen']['name']);
+            move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
 
             header("Location: ../View/Home.php?exito=registro_ok");
             exit;
         } else {
-            header("Location: ../View/register.php?error=error_bd");
+            header("Location: ../View/register_Admin.php?error=error_bd");
             exit;
         }
-
     }
 
 }
