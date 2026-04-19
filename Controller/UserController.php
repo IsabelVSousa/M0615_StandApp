@@ -63,7 +63,7 @@ class UserController
         // necesita que exista las dos cosas para poder enviar el post
 
         // Preparar consulta, falta password
-        $sql = "SELECT IDPERSONA, nombreApellido, email, contraseña  FROM persona WHERE email = ? ";
+        $sql = "SELECT IDPERSONA, nombreApellido, email, contraseña, tipo  FROM persona WHERE email = ? ";
 
 
         $stmt = $this->conn->prepare($sql);
@@ -81,6 +81,7 @@ class UserController
 
             if ($psw == $fila['contraseña']) {
                 $_SESSION['usuario_id'] = $fila['IDPERSONA'];
+                $_SESSION['tipo'] = $fila['tipo'];
 
                 echo "Bienvenido, " . $fila['nombreApellido'];
                 $_SESSION['email'] = $_POST['email'];
