@@ -4,57 +4,59 @@ session_start();
 // si el metodo es post creo el usuario
 //porque no es un isset??
 // var_dump($_SERVER);
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $userController = new UserController();
-}
 
-// que tipo de post es y derivar a su funcion
-if (isset($_POST["login"])) {
-    echo "<p>Login click</p>";
-    $userController->login();
-}
+    // que tipo de post es y derivar a su funcion
+    if (isset($_POST["login"])) {
+        echo "<p>Login click</p>";
+        $userController->login();
+    }
 
-if (isset($_POST["logout"])) {
-    echo "<p>Logout click</p>";
-    $userController->lougout();
-}
+    if (isset($_POST["logout"])) {
+        echo "<p>Logout click</p>";
+        $userController->lougout();
+    }
 
-if (isset($_POST["register"])) {
-    echo "<p>Register click</p>";
-    $userController->register();
-}
+    if (isset($_POST["register"])) {
+        echo "<p>Register click</p>";
+        $userController->register();
+    }
 
-if (isset($_POST["register_Admin"])) {
-    echo "<p>register_Admin click</p>";
-    $userController->register_Admin();
+    if (isset($_POST["register_Admin"])) {
+        echo "<p>register_Admin click</p>";
+        $userController->register_Admin();
+    }
 }
 
 class UserController
 {
 
     //hay que poner aqui algun atributo??
-    private $conn;
+    private PDO $conn;
 
     //aqui tendria que ir el constructor   
     public function __construct()
     {
         $servername = "localhost";
         $username = "root";
-
-        //falta asignar la password
         $password = "";
         $dbname = "standapp";
+        $dbport = 3306;
 
-        $this->conn = new mysqli("localhost", "root", "", "standapp");
-
-        //dentro del constructor??
-        if ($this->conn->connect_error) {
-            die("Error de conexión: " . $this->conn->connect_error);
+        try {
+            $this->conn = new PDO(
+                "mysql:host={$servername};port={$dbport};dbname={$dbname};charset=utf8mb4",
+                $username,
+                $password,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                ]
+            );
+        } catch (PDOException $e) {
+            die("Error de conexión: " . $e->getMessage());
         }
-
-        echo "Conexión exitosa";
-
-        $this->conn->set_charset("utf8mb4");
     }
 
     public function login(): void
@@ -72,16 +74,10 @@ class UserController
 
         $stmt = $this->conn->prepare($sql);
 
-        // Vincular parámetros (tipos: i=integer, s=string, d=double, b=blob)
-        $stmt->bind_param("s", $email);
-
         // Ejecutar
-        $stmt->execute();
+        $stmt->execute([$email]);
 
-        // Obtener resultados
-        $resultado = $stmt->get_result();
-
-        if ($fila = $resultado->fetch_assoc()) {
+        if ($fila = $stmt->fetch()) {
 
             if ($psw == $fila['contraseña']) {
                 $_SESSION['usuario_id'] = $fila['IDPERSONA'];
@@ -163,10 +159,8 @@ class UserController
 
 
         $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
-        $check->bind_param("s", $email);
-        $check->execute();
-        $check->store_result();
-        if ($check->num_rows > 0) {
+        $check->execute([$email]);
+        if ($check->fetchColumn()) {
             header("Location: ../View/register.php?error=email_ya_registrado");
             exit;
         }
@@ -174,9 +168,8 @@ class UserController
         // Insertar en base de datos
         $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw);
 
-        if ($stmt->execute()) {
+        if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw])) {
             // Imagen de perfil solo para admin (req. 2.5)
             if ($tipo === 'admin' && isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
                 $destino = "../View/img/perfiles/" . $idPersona . "_" . basename($_FILES['imagen']['name']);
@@ -249,19 +242,16 @@ class UserController
         $idPersona = uniqid(); 
 
         $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
-        $check->bind_param("s", $email);
-        $check->execute();
-        $check->store_result();
-        if ($check->num_rows > 0) {
+        $check->execute([$email]);
+        if ($check->fetchColumn()) {
             header("Location: ../View/register_Admin.php?error=email_ya_registrado");
             exit;
         }
 
         $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw);
 
-        if ($stmt->execute()) {
+        if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw])) {
 
             $carpeta = "../View/img/perfiles/";
             if (!file_exists($carpeta)) {
