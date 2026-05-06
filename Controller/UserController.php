@@ -4,58 +4,64 @@ session_start();
 // si el metodo es post creo el usuario
 //porque no es un isset??
 // var_dump($_SERVER);
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $userController = new UserController();
-}
 
-// que tipo de post es y derivar a su funcion
-if (isset($_POST["login"])) {
-    echo "<p>Login click</p>";
-    $userController->login();
-}
 
-if (isset($_POST["logout"])) {
-    echo "<p>Logout click</p>";
-    $userController->lougout();
-}
+    // que tipo de post es y derivar a su funcion
+    if (isset($_POST["login"])) {
+        echo "<p>Login click</p>";
+        $userController->login();
+    }
 
-if (isset($_POST["register"])) {
-    echo "<p>Register click</p>";
-    $userController->register();
-}
+    if (isset($_POST["logout"])) {
+        echo "<p>Logout click</p>";
+        $userController->lougout();
+    }
 
-if (isset($_POST["register_Admin"])) {
-    echo "<p>register_Admin click</p>";
-    $userController->register_Admin();
+    if (isset($_POST["register"])) {
+        echo "<p>Register click</p>";
+        $userController->register();
+    }
+
+    if (isset($_POST["register_Admin"])) {
+        echo "<p>register_Admin click</p>";
+        $userController->register_Admin();
+    }
 }
 
 class UserController
 {
 
     //hay que poner aqui algun atributo??
-    private $conn;
+    private PDO $conn;
 
     //aqui tendria que ir el constructor   
     public function __construct()
     {
         $servername = "localhost";
         $username = "root";
-
-        //falta asignar la password
         $password = "";
         $dbname = "standapp";
 
-        $this->conn = new mysqli("localhost", "root", "", "standapp");
+        $dbport = 3306;
 
-        //dentro del constructor??
-        if ($this->conn->connect_error) {
-            die("Error de conexión: " . $this->conn->connect_error);
+        try {
+
+            $this->conn = new PDO(
+                "mysql:host={$servername};port={$dbport};dbname={$dbname};charset=utf8mb4",
+                $username,
+                $password,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                ]
+            );
+        } catch (PDOException $e) {
+            die("Error de conexión: " . $e->getMessage());
         }
-
-        echo "Conexión exitosa";
-
-        $this->conn->set_charset("utf8mb4");
     }
+
 
     public function login(): void
     {
@@ -72,16 +78,9 @@ class UserController
 
         $stmt = $this->conn->prepare($sql);
 
-        // Vincular parámetros (tipos: i=integer, s=string, d=double, b=blob)
-        $stmt->bind_param("s", $email);
+        $stmt->execute([$email]);
 
-        // Ejecutar
-        $stmt->execute();
-
-        // Obtener resultados
-        $resultado = $stmt->get_result();
-
-        if ($fila = $resultado->fetch_assoc()) {
+        if ($fila = $stmt->fetch()) {
 
             if ($psw == $fila['contraseña']) {
                 $_SESSION['usuario_id'] = $fila['IDPERSONA'];
@@ -97,7 +96,6 @@ class UserController
                 header("Location: ../View/LogIn.php?error=1");
                 exit;
             }
-
         } else {
             echo "El email no está asociado a una cuenta vinculada a esta página web";
             header("Location: ../View/LogIn.php?error=2");
@@ -189,7 +187,6 @@ class UserController
             header("Location: ../View/register.php?error=error_bd");
             exit;
         }
-
     }
     public function register_Admin(): void
     {
@@ -241,12 +238,12 @@ class UserController
             header("Location: ../View/register_Admin.php?error=passwords_no_coinciden");
             exit;
         }
-        
+
         // FIN VALIDACIONES
 
         $telefonoConPrefijo = "+34 " . $telefono;
         $nombreApellido = $nombre . ' ' . $nif_limpio;
-        $idPersona = uniqid(); 
+        $idPersona = uniqid();
 
         $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
         $check->bind_param("s", $email);
@@ -277,5 +274,4 @@ class UserController
             exit;
         }
     }
-
 }
