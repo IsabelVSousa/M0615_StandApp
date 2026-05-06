@@ -161,10 +161,8 @@ class UserController
 
 
         $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
-        $check->bind_param("s", $email);
-        $check->execute();
-        $check->store_result();
-        if ($check->num_rows > 0) {
+        $check->execute([$email]);
+        if ($check->fetchColum) {
             header("Location: ../View/register.php?error=email_ya_registrado");
             exit;
         }
@@ -174,7 +172,7 @@ class UserController
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw);
 
-        if ($stmt->execute()) {
+        if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw])) {
             // Imagen de perfil solo para admin (req. 2.5)
             if ($tipo === 'admin' && isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
                 $destino = "../View/img/perfiles/" . $idPersona . "_" . basename($_FILES['imagen']['name']);
@@ -247,9 +245,9 @@ class UserController
 
         $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
         $check->bind_param("s", $email);
-        $check->execute();
+        $check->execute([$email]);
         $check->store_result();
-        if ($check->num_rows > 0) {
+        if ($check->fetchColum) {
             header("Location: ../View/register_Admin.php?error=email_ya_registrado");
             exit;
         }
@@ -258,7 +256,7 @@ class UserController
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw);
 
-        if ($stmt->execute()) {
+        if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw])) {
 
             $carpeta = "../View/img/perfiles/";
             if (!file_exists($carpeta)) {
