@@ -85,6 +85,7 @@ class UserController
             if ($psw == $fila['contraseña']) {
                 $_SESSION['usuario_id'] = $fila['IDPERSONA'];
                 $_SESSION['tipo'] = $fila['tipo'];
+                $_SESSION['nombre'] = $fila['nombreApellido'];
 
                 echo "Bienvenido, " . $fila['nombreApellido'];
                 $_SESSION['email'] = $_POST['email'];
