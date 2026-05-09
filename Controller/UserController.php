@@ -162,7 +162,7 @@ class UserController
 
         $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
         $check->execute([$email]);
-        if ($check->fetchColum) {
+        if ($check->fetchColumn()) {
             header("Location: ../View/register.php?error=email_ya_registrado");
             exit;
         }
@@ -170,7 +170,6 @@ class UserController
         // Insertar en base de datos
         $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw);
 
         if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw])) {
             // Imagen de perfil solo para admin (req. 2.5)
@@ -244,17 +243,14 @@ class UserController
         $idPersona = uniqid();
 
         $check = $this->conn->prepare("SELECT IDPersona FROM persona WHERE email = ?");
-        $check->bind_param("s", $email);
         $check->execute([$email]);
-        $check->store_result();
-        if ($check->fetchColum) {
+        if ($check->fetchColumn()) {
             header("Location: ../View/register_Admin.php?error=email_ya_registrado");
             exit;
         }
 
         $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw);
 
         if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw])) {
 
