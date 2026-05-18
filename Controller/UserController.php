@@ -19,6 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $userController->lougout();
     }
 
+    if (isset($_POST["updateProfile"])) {
+        echo "<p>Update click</p>";
+        $userController->updateProfile();
+    }
+
     if (isset($_POST["register"])) {
         echo "<p>Register click</p>";
         $userController->register();
@@ -55,6 +60,9 @@ class UserController
                 [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES => false,
+                    PDO::ATTR_PERSISTENT => true,
+                    PDO::ATTR_TIMEOUT => 5
                 ]
             );
         } catch (PDOException $e) {
@@ -113,6 +121,38 @@ class UserController
         header("Location: ../View/LogIn.php");
         exit();
     }
+
+    public function updateProfile(): void
+    {
+        $email = $_SESSION['email'];
+        $psw = $_POST['password'];
+        $name = trim($_POST['nombre'] ?? '');
+
+        try {
+            $sql = "UPDATE persona SET nombreApellido = :name, contraseña = :psw WHERE email = :email";
+            $stmt = $this->conn->prepare($sql);
+
+
+            $stmt->execute([
+                ':name' => $name,
+                ':psw' => $psw,
+                ':email' => $email
+            ]);
+
+            echo "Registro actualizado correctamente<br>";
+            echo "Filas afectadas: " . $stmt->rowCount();
+
+            $_SESSION['nombre'] = $name;
+            $_SESSION['password'] = $psw;
+
+            header("Location: ../View/perfil.php?updated=1");
+            exit;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
+
 
     public function register(): void
     {

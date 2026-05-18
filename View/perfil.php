@@ -1,11 +1,10 @@
 <?php
 session_start();
 
-if(isset($_SESSION['nombre'])){
-
-}
+$nombre   = $_SESSION['nombre']   ?? 'Usuario';
+$email    = $_SESSION['email']    ?? '';
+$password = $_SESSION['password'] ?? '';
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -46,7 +45,7 @@ if(isset($_SESSION['nombre'])){
             text-decoration: none;
         }
 
-        /* ── NAVBAR ── */
+        /* ══ NAVBAR ══ */
         .barra-superior {
             background-color: var(--primary-orange);
         }
@@ -134,9 +133,7 @@ if(isset($_SESSION['nombre'])){
             align-items: center;
         }
 
-        .menu-checkbox {
-            display: none;
-        }
+        .menu-checkbox { display: none; }
 
         .menu-toggle {
             display: none;
@@ -145,7 +142,7 @@ if(isset($_SESSION['nombre'])){
             cursor: pointer;
         }
 
-        /* ── MAIN ── */
+        /* ══ MAIN ══ */
         main {
             flex: 1;
             width: 90%;
@@ -153,10 +150,10 @@ if(isset($_SESSION['nombre'])){
             margin: 3rem auto;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.75rem;
         }
 
-        /* ── HERO PERFIL ── */
+        /* ══ HERO ══ */
         .perfil-hero {
             background-color: var(--card-bg);
             border-radius: 15px;
@@ -171,24 +168,30 @@ if(isset($_SESSION['nombre'])){
         .perfil-hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
+            top: 0; left: 0;
+            width: 6px; height: 100%;
             background-color: var(--primary-orange);
             border-radius: 15px 0 0 15px;
         }
 
-        .avatar-grande {
+        /* Contenedor del avatar con botón de edición */
+        .avatar-wrapper {
+            position: relative;
+            flex-shrink: 0;
             width: 7rem;
             height: 7rem;
+        }
+
+        .avatar-grande {
+            width: 100%;
+            height: 100%;
             background-color: var(--input-bg);
             border-radius: 50%;
             border: 3px solid var(--primary-orange);
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            overflow: hidden;
         }
 
         .avatar-grande .material-icons-round {
@@ -196,76 +199,61 @@ if(isset($_SESSION['nombre'])){
             color: var(--text-muted);
         }
 
-        .perfil-info {
-            flex: 1;
+        /* Foto de perfil si existe */
+        .avatar-grande img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Input file real — invisible */
+        #input-foto { display: none; }
+
+        /* Botón naranja pequeño en la esquina inferior derecha del avatar */
+        .label-foto {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 2.2rem;
+            height: 2.2rem;
+            background-color: var(--primary-orange);
+            border-radius: 50%;
+            border: 3px solid var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .label-foto:hover {
+            transform: scale(1.12);
+            background-color: #e03000;
+        }
+
+        .label-foto .material-icons-round {
+            font-size: 1rem;
+            color: white;
         }
 
         .perfil-nombre {
             font-size: 1.8rem;
             font-weight: 800;
             text-transform: uppercase;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         .perfil-email {
             color: var(--text-muted);
             font-size: 0.95rem;
-            margin-bottom: 0.75rem;
         }
 
-        .perfil-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background-color: var(--primary-orange);
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            letter-spacing: 0.5px;
-        }
-
-        .perfil-badge .material-icons-round {
-            font-size: 0.95rem;
-        }
-
-        .boton-editar {
-            background-color: var(--primary-orange);
-            border: none;
-            color: white;
-            font-weight: 800;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.9rem;
-            align-self: flex-start;
-            margin-left: auto;
-        }
-
-        .boton-editar .material-icons-round {
-            font-size: 1.1rem;
-        }
-
-        /* ── GRID CARDS ── */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
+        /* ══ CARD BASE ══ */
         .card {
             background-color: var(--card-bg);
             border-radius: 15px;
             padding: 1.75rem;
             position: relative;
-            transition: transform 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
         }
 
         .card-titulo {
@@ -274,7 +262,7 @@ if(isset($_SESSION['nombre'])){
             text-transform: uppercase;
             color: var(--primary-orange);
             letter-spacing: 1px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             display: flex;
             align-items: center;
             gap: 0.4rem;
@@ -284,31 +272,32 @@ if(isset($_SESSION['nombre'])){
             font-size: 1rem;
         }
 
-        .card-valor {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 0.25rem;
-        }
-
-        .card-subtitulo {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .card-icon-grande {
-            font-size: 2.5rem;
+        .card-icon-fondo {
+            font-size: 3.5rem;
             color: var(--primary-orange);
-            opacity: 0.2;
+            opacity: 0.1;
             position: absolute;
             bottom: 1rem;
-            right: 1.25rem;
+            right: 1.5rem;
+            pointer-events: none;
         }
 
-        /* Card acción con botón de settings */
-        .btn-settings {
+        /* ══ DATOS PERSONALES — TOGGLE CSS PURO ══
+           Cómo funciona:
+           - #toggle-editar es un checkbox invisible
+           - Está FUERA de .card-datos pero es hermano anterior dentro de <main>
+           - El selector ~ selecciona el hermano siguiente .card-datos
+           - <label for="toggle-editar"> activa/desactiva sin JavaScript
+           - "Cancelar" es un <a href> que recarga la página y resetea el checkbox
+        */
+        #toggle-editar {
+            display: none;
+        }
+
+        .label-editar {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 1.25rem;
+            right: 1.25rem;
             background: none;
             border: none;
             color: var(--text-muted);
@@ -319,66 +308,199 @@ if(isset($_SESSION['nombre'])){
             align-items: center;
             justify-content: center;
             transition: color 0.2s, background 0.2s;
+            user-select: none;
         }
 
-        .btn-settings:hover {
+        .label-editar:hover {
             color: white;
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Estadísticas en fila */
-        .card-estadisticas {
-            grid-column: span 2;
+        /* Por defecto: lápiz visible, X oculta */
+        .icono-cerrar {
+            display: none;
+        }
+
+        /* Cuando el checkbox está activado */
+        #toggle-editar:checked ~ .card-datos .icono-editar { display: none; }
+        #toggle-editar:checked ~ .card-datos .icono-cerrar { display: flex; }
+        #toggle-editar:checked ~ .card-datos .datos-vista  { display: none; }
+        #toggle-editar:checked ~ .card-datos .datos-form   { display: flex; }
+
+        /* Vista lectura: grid 3 columnas */
+        .datos-vista {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem 2rem;
+        }
+
+        .dato-fila {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .dato-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .dato-valor {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Formulario edición: oculto por defecto */
+        .datos-form {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .form-grupo {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .form-grupo label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .form-grupo input {
+            background-color: var(--input-bg);
+            border: 1px solid #444;
+            border-radius: 0.5rem;
+            padding: 0.6rem 0.85rem;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-grupo input:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+        }
+
+        .form-acciones {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .btn-guardar {
+            background-color: var(--primary-orange);
+            border: none;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.75rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+        }
+
+        .btn-cancelar-edit {
+            background: transparent;
+            border: 1px solid #555;
+            color: var(--text-muted);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.4rem;
+            display: inline-flex;
+            align-items: center;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-cancelar-edit:hover {
+            border-color: white;
+            color: white;
+        }
+
+        .mensaje-ok {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(252, 58, 5, 0.12);
+            border: 1px solid var(--primary-orange);
+            border-radius: 0.5rem;
+            padding: 0.65rem 1rem;
+            font-size: 0.85rem;
+            color: var(--primary-orange);
+            font-weight: 700;
+            margin-top: 0.75rem;
+        }
+
+        /* ══ FILA STATS (2 columnas lado a lado) ══ */
+        .fila-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
         }
 
         .stats-row {
             display: flex;
-            gap: 2rem;
-            margin-top: 0.5rem;
         }
 
         .stat-item {
+            flex: 1;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0.25rem 0;
+        }
+
+        .stat-item:not(:last-child) {
+            border-right: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .stat-numero {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
+            line-height: 1;
         }
 
         .stat-label {
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            margin-top: 0.3rem;
         }
 
-        .stat-divider {
-            width: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            align-self: stretch;
+        .valoracion-numero {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1;
         }
 
-        /* Valoración con estrellas */
         .estrellas {
             display: flex;
-            gap: 0.25rem;
-            margin-top: 0.75rem;
+            gap: 0.2rem;
+            margin-top: 0.6rem;
         }
 
-        .estrella {
-            color: var(--primary-orange);
-            font-size: 1.4rem;
-        }
+        .estrella      { color: var(--primary-orange); font-size: 1.4rem; }
+        .estrella-vacia { color: #444; font-size: 1.4rem; }
 
-        .estrella-vacia {
-            color: #444;
-        }
-
-        /* Sección historial */
+        /* ══ HISTORIAL ══ */
         .seccion-titulo {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 800;
             text-transform: uppercase;
             margin-bottom: 1rem;
@@ -406,7 +528,7 @@ if(isset($_SESSION['nombre'])){
             padding: 1rem 1.5rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.25rem;
             transition: background 0.2s;
         }
 
@@ -423,27 +545,11 @@ if(isset($_SESSION['nombre'])){
             min-width: 3.5rem;
         }
 
-        .historial-fecha-dia {
-            font-size: 1.2rem;
-            font-weight: 800;
-            line-height: 1;
-        }
+        .historial-fecha-dia { font-size: 1.2rem; font-weight: 800; line-height: 1; }
+        .historial-fecha-mes { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .historial-fecha-mes {
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .historial-info {
-            flex: 1;
-        }
-
-        .historial-nombre {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
+        .historial-info { flex: 1; }
+        .historial-nombre { font-weight: 700; font-size: 0.95rem; }
 
         .historial-lugar {
             color: var(--text-muted);
@@ -454,17 +560,10 @@ if(isset($_SESSION['nombre'])){
             gap: 0.25rem;
         }
 
-        .historial-lugar .material-icons-round {
-            font-size: 0.9rem;
-        }
+        .historial-lugar .material-icons-round { font-size: 0.9rem; }
+        .historial-precio { font-weight: 800; font-size: 1rem; color: var(--primary-orange); }
 
-        .historial-precio {
-            font-weight: 800;
-            font-size: 1rem;
-            color: var(--primary-orange);
-        }
-
-        /* ── FOOTER ── */
+        /* ══ FOOTER ══ */
         .footer-section {
             background-color: var(--primary-orange);
             padding: 2.5rem 5%;
@@ -472,54 +571,36 @@ if(isset($_SESSION['nombre'])){
         }
 
         .footer-wrap {
+            display: flex;
             justify-content: space-between;
             align-items: center;
-            display: flex;
         }
 
-        .footer-copy {
-            font-size: 0.85rem;
-            opacity: 0.85;
-        }
+        .footer-copy { font-size: 0.85rem; opacity: 0.85; }
 
-        .footer-social-wrap {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
+        .footer-social-wrap { display: flex; gap: 1.5rem; align-items: center; }
+        .footer-social-wrap a { opacity: 0.85; transition: opacity 0.2s; }
+        .footer-social-wrap a:hover { opacity: 1; }
 
-        .footer-social-wrap a {
-            opacity: 0.85;
-            transition: opacity 0.2s;
-        }
-
-        .footer-social-wrap a:hover {
-            opacity: 1;
-        }
-
-        /* ── RESPONSIVE ── */
+        /* ══ RESPONSIVE ══ */
         @media screen and (max-width: 992px) {
-            .cards-grid {
+            .fila-stats {
                 grid-template-columns: 1fr 1fr;
             }
-
-            .card-estadisticas {
-                grid-column: span 2;
+            .datos-vista,
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
         @media screen and (max-width: 742px) {
-            body {
-                overflow-x: hidden;
-            }
+            body { overflow-x: hidden; }
 
-            .menu-toggle {
-                display: block;
-            }
+            .menu-toggle { display: block; }
 
             .navegacion-principal {
-                flex-wrap: wrap;
                 position: relative;
+                flex-wrap: wrap;
             }
 
             .enlaces-navegacion,
@@ -539,8 +620,8 @@ if(isset($_SESSION['nombre'])){
                 border-radius: 10px;
             }
 
-            .menu-checkbox:checked~.enlaces-navegacion,
-            .menu-checkbox:checked~.botones-navegacion {
+            .menu-checkbox:checked ~ .enlaces-navegacion,
+            .menu-checkbox:checked ~ .botones-navegacion {
                 display: flex;
             }
 
@@ -555,16 +636,17 @@ if(isset($_SESSION['nombre'])){
                 height: 5px;
             }
 
-            .boton-editar {
-                margin: 0 auto;
-            }
+            .fila-stats { grid-template-columns: 1fr; }
 
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
+            .datos-vista,
+            .form-grid { grid-template-columns: 1fr; }
 
-            .card-estadisticas {
-                grid-column: span 1;
+            .form-acciones { flex-direction: column-reverse; }
+
+            .btn-guardar,
+            .btn-cancelar-edit {
+                width: 100%;
+                justify-content: center;
             }
 
             .footer-wrap {
@@ -585,7 +667,7 @@ if(isset($_SESSION['nombre'])){
 
             <div class="navegacion-izquierda">
                 <div class="logo-circulo">
-                    <img src="/STAND_APP/img/logotipo2_StandApp_Dunia.png" alt="Logo StandApp">
+                    <img src="img/logotipo2_StandApp_Dunia.png" alt="Logo StandApp">
                 </div>
                 <span class="logo-texto">Stand-App</span>
             </div>
@@ -613,14 +695,104 @@ if(isset($_SESSION['nombre'])){
 
         <!-- HERO -->
         <section class="perfil-hero">
-            <div class="avatar-grande">
-                <span class="material-icons-round">person_outline</span>
-            </div>
+
+            <!-- Formulario de subida de foto — envía al controller -->
+            <form action="../Controller/UserController.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="accion" value="actualizar_foto">
+
+                <div class="avatar-wrapper">
+                    <div class="avatar-grande">
+                        <?php if (!empty($_SESSION['foto'])): ?>
+                            <img src="<?= htmlspecialchars($_SESSION['foto']) ?>" alt="Foto de perfil">
+                        <?php else: ?>
+                            <span class="material-icons-round">person_outline</span>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- Input file oculto — el label de abajo lo activa -->
+                    <input type="file" id="input-foto" name="foto"
+                           accept="image/png, image/jpeg, image/webp"
+                           onchange="this.form.submit()">
+
+                    <!-- Botón naranja en esquina inferior derecha -->
+                    <label for="input-foto" class="label-foto" title="Cambiar foto de perfil">
+                        <span class="material-icons-round">photo_camera</span>
+                    </label>
+                </div>
+
+            </form>
+
             <div>
-                <div class="perfil-nombre">Lorem Ipsum</div>
-                <div class="perfil-email">loremipsum@email.com</div>
+                <div class="perfil-nombre"><?= htmlspecialchars($nombre) ?></div>
+                <div class="perfil-email"><?= htmlspecialchars($email) ?></div>
             </div>
         </section>
+
+        <!-- DATOS PERSONALES (ancho completo, encima de las stats) -->
+        <input type="checkbox" id="toggle-editar">
+
+        <div class="card card-datos">
+
+            <label for="toggle-editar" class="label-editar" title="Editar datos personales">
+                <span class="material-icons-round icono-editar">edit</span>
+                <span class="material-icons-round icono-cerrar">close</span>
+            </label>
+
+            <div class="card-titulo">
+                <span class="material-icons-round">person</span>
+                Datos personales
+            </div>
+
+            <!-- Vista de solo lectura -->
+            <div class="datos-vista">
+                <div class="dato-fila">
+                    <span class="dato-label">Nombre completo</span>
+                    <span class="dato-valor"><?= htmlspecialchars($nombre) ?></span>
+                </div>
+                <div class="dato-fila">
+                    <span class="dato-label">Correo electrónico</span>
+                    <span class="dato-valor"><?= htmlspecialchars($email) ?></span>
+                </div>
+                <div class="dato-fila">
+                    <span class="dato-label">Contraseña</span>
+                    <span class="dato-valor">••••••••</span>
+                </div>
+            </div>
+
+            <!-- Formulario de edición -->
+            <form class="datos-form" action="../Controller/UserController.php" method="post">
+                <input type="hidden" name="accion" value="actualizar_perfil">
+                <div class="form-grid">
+                    <div class="form-grupo">
+                        <label for="inputNombre">Nombre completo</label>
+                        <input type="text" id="inputNombre" name="nombre"
+                               value="<?= htmlspecialchars($nombre) ?>" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="inputEmail">Correo electrónico</label>
+                        <input type="email" id="inputEmail" name="email"
+                               value="<?= htmlspecialchars($email) ?>" readonly style="opacity: 0.5; cursor: not-allowed;">
+                    </div>
+                    <div class="form-grupo">
+                        <label for="inputPassword">Nueva contraseña</label>
+                        <input type="password" id="inputPassword" name="password"
+                               placeholder="Dejar vacío para no cambiar">
+                    </div>
+                </div>
+                <div class="form-acciones">
+                    <a href="perfil.php" class="btn-cancelar-edit">Cancelar</a>
+                    <button type="submit" class="btn-guardar" name="updateProfile">Guardar cambios</button>
+                </div>
+            </form>
+
+            <?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
+            <div class="mensaje-ok">
+                <span class="material-icons-round" style="font-size:1rem;">check_circle</span>
+                Datos actualizados correctamente
+            </div>
+            <?php endif; ?>
+
+        </div>
 
         <!-- FILA: Actividad + Valoración -->
         <div class="fila-stats">
@@ -662,92 +834,6 @@ if(isset($_SESSION['nombre'])){
                 </div>
                 <span class="material-icons-round card-icon-fondo">grade</span>
             </div>
-
-        </div>
-
-        <!--
-            ══ DATOS PERSONALES (ancho completo) ══
-            El checkbox #toggle-editar y .card-datos son hermanos directos dentro de <main>.
-            El selector CSS "#toggle-editar:checked ~ .card-datos" funciona porque
-            el ~ selecciona hermanos que vienen DESPUÉS en el mismo padre.
-            El <label for="toggle-editar"> activa/desactiva el checkbox sin JS.
-            "Cancelar" recarga la página con href, lo que resetea el checkbox.
-        -->
-        <input type="checkbox" id="toggle-editar">
-
-        <div class="card card-datos">
-
-            <label for="toggle-editar" class="label-editar" title="Editar datos personales">
-                <span class="material-icons-round icono-editar">edit</span>
-                <span class="material-icons-round icono-cerrar">close</span>
-            </label>
-
-            <div class="card-titulo">
-                <span class="material-icons-round">person</span>
-                Datos personales
-            </div>
-
-            <!-- Vista de solo lectura -->
-            <div class="datos-vista">
-                <div class="dato-fila">
-                    <span class="dato-label">Nombre</span>
-                    <span class="dato-valor">Lorem</span>
-                </div>
-                <div class="dato-fila">
-                    <span class="dato-label">Apellido</span>
-                    <span class="dato-valor">Ipsum</span>
-                </div>
-                <div class="dato-fila">
-                    <span class="dato-label">Teléfono</span>
-                    <span class="dato-valor">+34 000 00 00 00</span>
-                </div>
-                <div class="dato-fila">
-                    <span class="dato-label">Correo electrónico</span>
-                    <span class="dato-valor">loremipsum@email.com</span>
-                </div>
-                <div class="dato-fila">
-                    <span class="dato-label">Contraseña</span>
-                    <span class="dato-valor">••••••••</span>
-                </div>
-            </div>
-
-            <!-- Formulario de edición (CSS lo muestra al activar el checkbox) -->
-            <form class="datos-form" action="../Controller/UserController.php" method="post">
-                <input type="hidden" name="accion" value="actualizar_perfil">
-                <div class="form-grid">
-                    <div class="form-grupo">
-                        <label for="inputNombre">Nombre</label>
-                        <input type="text" id="inputNombre" name="nombre" placeholder="Nombre" required>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="inputApellido">Apellido</label>
-                        <input type="text" id="inputApellido" name="apellido" placeholder="Apellido">
-                    </div>
-                    <div class="form-grupo">
-                        <label for="inputTelefono">Teléfono</label>
-                        <input type="tel" id="inputTelefono" name="telefono" placeholder="+34 000 00 00 00">
-                    </div>
-                    <div class="form-grupo">
-                        <label for="inputEmail">Correo electrónico</label>
-                        <input type="email" id="inputEmail" name="email" placeholder="correo@email.com" required>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="inputPassword">Nueva contraseña</label>
-                        <input type="password" id="inputPassword" name="password" placeholder="Dejar vacío para no cambiar">
-                    </div>
-                </div>
-                <div class="form-acciones">
-                    <a href="perfil.php" class="btn-cancelar-edit">Cancelar</a>
-                    <button type="submit" class="btn-guardar">Guardar cambios</button>
-                </div>
-            </form>
-
-            <?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
-                <div class="mensaje-ok">
-                    <span class="material-icons-round" style="font-size:1rem;">check_circle</span>
-                    Datos actualizados correctamente
-                </div>
-            <?php endif; ?>
 
         </div>
 
@@ -822,5 +908,4 @@ if(isset($_SESSION['nombre'])){
     </footer>
 
 </body>
-
 </html>
