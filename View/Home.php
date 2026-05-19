@@ -1,24 +1,24 @@
 <?php
 session_start();
 
+require_once "../Controller/EventController.php";
+$eventController = new EventController();
+$eventos = $eventController->readAllPublic();
 // Decidimos el destino y el texto del botón
-if (isset($_SESSION['usuario_id'])) {
+if (isset($_SESSION['IDPersona'])) {
     if ($_SESSION['tipo'] == 'admin') {
-        $destino = "Event.html";
-        $destinoorg = "Event.html";
-        $destinoperf = "perfil.php";
-        echo "hello admin!";
+        $destino     = "Event.html";
+        $destinoorg  = "Event.html";
+        $destinoperf = "perfil_admin.php";
     } else {
-        $destino = "Event.html";
-        $destinoorg = "login.php";
+        $destino     = "Event.html";
+        $destinoorg  = "LogIn.php";
         $destinoperf = "perfil.php";
-        echo "para cerrar sesión vaya al perfil";
     }
 } else {
-    $destino = "login.php";
-    $destinoorg = "login.php";
-    $destinoperf = "login.php";
-    echo "iniciar sesion para ver mas";
+    $destino     = "LogIn.php";
+    $destinoorg  = "LogIn.php";
+    $destinoperf = "LogIn.php";
 }
 
 ?>
@@ -35,6 +35,47 @@ if (isset($_SESSION['usuario_id'])) {
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Home.css">
 </head>
+
+<script>
+    let posicion = 0;
+    const carrusel = document.getElementById('carrusel');
+    const dots = document.querySelectorAll('.dot');
+    const totalItems = carrusel ? carrusel.children.length : 0;
+
+    // Cuántos items caben según el ancho de pantalla
+    function itemsVisibles() {
+        if (window.innerWidth <= 742) return 1;
+        if (window.innerWidth <= 992) return 2;
+        return 3;
+    }
+
+    function actualizarCarrusel() {
+        const visibles = itemsVisibles();
+        const maxPos = Math.max(0, totalItems - visibles);
+        posicion = Math.min(posicion, maxPos);
+        const porcentaje = (100 / visibles) * posicion;
+        carrusel.style.transform = `translateX(-${porcentaje}%)`;
+
+        // Actualizar dots
+        dots.forEach((d, i) => {
+            d.classList.toggle('activo', i === posicion);
+        });
+    }
+
+    function moverCarrusel(direccion) {
+        const visibles = itemsVisibles();
+        const maxPos = Math.max(0, totalItems - visibles);
+        posicion = Math.max(0, Math.min(posicion + direccion, maxPos));
+        actualizarCarrusel();
+    }
+
+    function irASlide(index) {
+        posicion = index;
+        actualizarCarrusel();
+    }
+
+    window.addEventListener('resize', actualizarCarrusel);
+</script>
 
 <body>
     <!DOCTYPE html>
@@ -260,96 +301,129 @@ if (isset($_SESSION['usuario_id'])) {
                     </div>
                 </div>
             </div>
-            <section class="next-card">
 
-                <!-- EVENTOS PROXIMOS -->
+            <section class="next-card">
                 <div class="events-content">
                     <h1>Próximos Eventos</h1>
-                    <a href=<?php echo $destino ?> target="_blank">Descubre más</a>
+                    <?php if (isset($_SESSION['IDPersona'])): ?>
+                        <a href="eventos_todos.php">Descubre más</a>
+                    <?php else: ?>
+                        <a href="LogIn.php">Descubre más</a>
+                    <?php endif; ?>
                 </div>
-                <div class="collection-list">
-                    <div class="outline next-event collection-list">
-                        <div>
-                            <img class="next-event" src="../View/img/next1.jpg" alt="Imagen del evento 1 prox">
-                        </div>
-                        <div>
-                            <h3 class="next-event">Noches de Risa BCN</h3>
-                            <div>
-                                <div class="card-info-next">
-                                    <div class="location-icon">
-                                        <i class="fas fa-map-marker-alt"></i>
+
+                <?php
+                // Si no está logueado o es standard sin sesión, mostrar solo 3
+                $eventosCarrusel = isset($_SESSION['IDPersona'])
+                    ? $eventos  // todos
+                    : array_slice($eventos, 0, 3); // solo los 3 más próximos
+                ?>
+
+                <?php if (empty($eventosCarrusel)): ?>
+                    <p style="color:#b5b5b5; text-align:center; padding:2rem 0;">
+                        No hay eventos próximos disponibles.
+                    </p>
+                <?php else: ?>
+
+                    <!-- CARRUSEL -->
+                    <div class="carrusel-wrapper">
+
+                        <!-- Flecha izquierda -->
+                        <button class="carrusel-btn carrusel-prev" onclick="moverCarrusel(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        
+                        <div class="carrusel-wrapper">
+                            <button class="carrusel-btn carrusel-prev" onclick="moverCarrusel(-1)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+
+                            <!-- Contenedor de tarjetas -->
+                            <div class="carrusel-contenedor" id="carrusel">
+                                <?php foreach ($eventosCarrusel as $ev): ?>
+                                    <div class="outline next-event carrusel-item">
+
+                                        <!-- Imagen del evento -->
+                                        <div>
+                                            <?php if (!empty($ev['imagen_evento'])): ?>
+                                                <img class="next-event"
+                                                    src="<?= htmlspecialchars($ev['imagen_evento']) ?>"
+                                                    alt="<?= htmlspecialchars($ev['descripcion']) ?>">
+                                            <?php else: ?>
+                                                <div style="
+                                    width:100%; height:180px;
+                                    background:#363636;
+                                    border-radius:8px;
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    color:#b5b5b5;
+                                    font-size:2rem;">
+                                                    <i class="fas fa-image"></i>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <!-- Info del evento -->
+                                        <div>
+                                            <h3 class="next-event">
+                                                <?= htmlspecialchars($ev['descripcion']) ?>
+                                            </h3>
+                                            <div>
+                                                <div class="card-info-next">
+                                                    <div class="location-icon">
+                                                        <i class="fas fa-user"></i>
+                                                    </div>
+                                                    <span><?= htmlspecialchars($ev['comediante']) ?></span>
+                                                </div>
+                                                <div class="card-info-next">
+                                                    <div class="location-icon">
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                    </div>
+                                                    <span><?= htmlspecialchars($ev['ubicacion'] ?? 'Por confirmar') ?></span>
+                                                </div>
+                                                <div class="card-info-next">
+                                                    <div class="location-icon">
+                                                        <i class="far fa-calendar-alt"></i>
+                                                    </div>
+                                                    <span><?= date('d/m/Y H:i', strtotime($ev['fechahora'])) ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="button-next">
+                                                <?php if (isset($_SESSION['IDPersona'])): ?>
+                                                    <a href="Event.php?id=<?= $ev['IDEvento'] ?>" class="btn-book">
+                                                        Ver evento
+                                                    </a>
+                                                <?php else: ?>
+                                                    <a href="LogIn.php" class="btn-book">
+                                                        Ver evento
+                                                    </a>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <span>Carrer de Balmes 152, Barcelona</span>
-                                </div>
-                                <div class="card-info-next">
-                                    <div class="location-icon">
-                                        <i class="far fa-calendar-alt"></i>
-                                    </div>
-                                    <span>23/06/26</span>
-                                </div>
-                            </div>
-                            <div class="button-next">
-                                <div>
-                                    <a href=<?php echo $destino ?> class="btn-book">Book Now</a>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
+
+                        <!-- Flecha derecha -->
+                        <button class="carrusel-btn carrusel-next" onclick="moverCarrusel(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
                     </div>
-                    <div class="outline next-event collection-list">
-                        <div>
-                            <img class="next-event" src="../View/img/next2.jpg" alt="Imagen del evento 2 prox">
-                        </div>
-                        <div>
-                            <h3 class="next-event">Micro Abierto Deluxe</h3>
-                            <div>
-                                <div class="card-info-next">
-                                    <div class="location-icon">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    <span>Carrer de Santa Clara 25, Girona</span>
-                                </div>
-                                <div class="card-info-next">
-                                    <div class="location-icon">
-                                        <i class="far fa-calendar-alt"></i>
-                                    </div>
-                                    <span>14/05/26</span>
-                                </div>
-                            </div>
-                            <div class="button-next">
-                                <div>
-                                    <a href=<?php echo $destino ?> class="btn-book">Book Now</a>
-                                </div>
-                            </div>
-                        </div>
+
+                    <!-- Indicadores de posición -->
+                    <div class="carrusel-dots" id="carrusel-dots">
+                        <?php foreach ($eventosCarrusel as $i => $ev): ?>
+                            <span class="dot <?= $i === 0 ? 'activo' : '' ?>"
+                                onclick="irASlide(<?= $i ?>)"></span>
+                        <?php endforeach; ?>
                     </div>
-                    <div class="outline next-event collection-list">
-                        <div>
-                            <img class="next-event" src="../View/img/next3.jpg" alt="Imagen del evento 3 prox">
-                        </div>
-                        <div>
-                            <h3 class="next-event">Stand Up Underground</h3>
-                            <div>
-                                <div class="card-info-next">
-                                    <div class="location-icon">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    <span>Carrer Major 18, Tarragona</span>
-                                </div>
-                                <div class="card-info-next">
-                                    <div class="location-icon">
-                                        <i class="far fa-calendar-alt"></i>
-                                    </div>
-                                    <span>28/06/26</span>
-                                </div>
-                            </div>
-                            <div class="button-next">
-                                <div>
-                                    <a href=<?php echo $destino ?> class="btn-book">Book Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                <?php endif; ?>
+
             </section>
 
             <!-- COMENTARIOS -->

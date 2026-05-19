@@ -43,8 +43,8 @@ session_start();
 
 
             <div class="botones-navegacion">
-                <a href="LogIn.html" class="boton boton-contorno">Iniciar Sesión</a>
-                <a href="register.html" class="boton boton-blanco">Registrarse</a>
+                <a href="LogIn.php" class="boton boton-contorno">Iniciar Sesión</a>
+                <a href="register_Admin.php" class="boton boton-blanco">Registrarse</a>
             </div>
         </nav>
     </div>

@@ -91,14 +91,18 @@ class UserController
         if ($fila = $stmt->fetch()) {
 
             if ($psw == $fila['contraseña']) {
-                $_SESSION['usuario_id'] = $fila['IDPERSONA'];
+                $_SESSION['IDPersona'] = $fila['IDPERSONA'];
                 $_SESSION['tipo'] = $fila['tipo'];
                 $_SESSION['nombre'] = $fila['nombreApellido'];
 
                 echo "Bienvenido, " . $fila['nombreApellido'];
                 $_SESSION['email'] = $_POST['email'];
                 $_SESSION['password'] = $_POST['password'];
-                header("Location: ../View/perfil.php");
+                if ($fila['tipo'] === 'admin') {
+                    header("Location: ../View/perfil_admin.php");
+                } else {
+                    header("Location: ../View/perfil.php");
+                }
                 exit;
             } else {
                 // echo "Contraseña incorrecta";
