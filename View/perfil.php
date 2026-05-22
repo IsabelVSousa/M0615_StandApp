@@ -727,6 +727,103 @@ $password = $_SESSION['password'] ?? '';
                 text-align: center;
             }
         }
+
+
+        /* ══ MODAL ELIMINAR ══ */
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.activo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .modal-icono {
+            font-size: 3rem;
+            color: var(--primary-orange);
+            margin: 0 auto;
+        }
+
+        .modal-titulo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .modal-texto {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .modal-acciones {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .btn-modal-cancelar {
+            background: transparent;
+            border: 1px solid #555;
+            color: var(--text-muted);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+        }
+
+        .btn-modal-confirmar {
+            background: var(--primary-orange);
+            border: none;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+        }
+
+        .btn-eliminar {
+            background: transparent;
+            border: 1px solid #e03000;
+            color: #e03000;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-eliminar:hover {
+            background: #e03000;
+            color: white;
+        }
     </style>
 </head>
 
@@ -965,8 +1062,30 @@ $password = $_SESSION['password'] ?? '';
             </div>
         </section>
         <section>
-            <form action="../Controller/UserController.php" method="post" onsubmit="return confirm('¿Seguro que quieres eliminar tu perfil? Esta acción no se puede deshacer.');">
-                <button type="submit" name="deleteProfile" class="btn-eliminar-perfil"
+            <form action="../Controller/UserController.php" method="post">
+                <div id="modal-eliminar" class="modal-overlay">
+                    <div class="modal-box">
+                        <span class="material-icons-round modal-icono">warning</span>
+                        <h2 class="modal-titulo">¿Eliminar tu cuenta?</h2>
+                        <p class="modal-texto">Esta acción es permanente y no se puede deshacer. Se borrarán todos tus datos.</p>
+                        <div class="modal-acciones">
+                            <button type="button" id="btn-modal-cancelar" class="btn-modal-cancelar">
+                                Cancelar
+                            </button>
+                            <form action="../Controller/UserController.php" method="post">
+                                <button type="submit" name="deleteProfile" class="btn-modal-confirmar">
+                                    Sí, eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+                <script src="JS/perfil.js"></script>
+
+
+                <button type="submit" id="btn-eliminar" name="deleteProfile" class="btn-eliminar-perfil"
                     style="
                 background: transparent;
                 border: 1px solid var(--primary-orange);
