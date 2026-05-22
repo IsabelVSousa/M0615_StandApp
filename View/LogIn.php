@@ -8,14 +8,19 @@ $mensajes = [
     // "campos_vacios" => "Rellena todos los campos."
 ];
 
+$mensajesExito = [
+    "perfileliminado" => "El perfil ha sido eliminado correctamente."
+];
 // 2. Miramos si hay un error en la URL
 // si existe el error recogelo, sino string vacio
-$error_id = $_GET['error'] ?? '';
+$error = $_GET['error'] ?? '';
+$exito = $_GET['exito'] ?? '';
 
 // 3. Si el error existe en nuestro diccionario, preparamos el texto
-$mensaje_error = $mensajes[$error_id] ?? '';
+$mensajeError = $mensajes[$error] ?? '';
+$mensajeExito = $mensajesExito[$exito] ?? '';
 
-if ($mensaje_error): ?>
+if ($mensajeError): ?>
     <div style="
         background-color: var(--bg-dark) !important;
         color: var(--text-white) !important;
@@ -45,14 +50,14 @@ if ($mensaje_error): ?>
             flex-shrink: 0 !important;
             ">!</span>
         <span style="font-size: 0.95rem !important; font-weight: 500 !important;">
-            <?php echo $mensaje_error; ?>
+            <?php echo $mensajeError; ?>
         </span>
     </div>
-    
+
     <!-- // Cierra el condicional. 
-    //Si $mensaje_error estaba vacío, todo el bloque de la caja (el div) se ignora por completo y no aparece en la página. -->
-    <?php endif; ?>
-    
+    //Si $mensajeError estaba vacío, todo el bloque de la caja (el div) se ignora por completo y no aparece en la página. -->
+<?php endif; ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -79,6 +84,17 @@ if ($mensaje_error): ?>
             <div>
                 <section>
                     <h2>Inicia sesión para ver más</h2>
+                    <?php if ($mensajeExito): ?>
+                        <p style="color: green; font-weight: 700; margin-bottom: 1rem;">
+                            <?php echo $mensajeExito; ?>
+                        </p>
+                    <?php endif; ?>
+
+                    <?php if ($mensajeError): ?>
+                        <p style="color: red; font-weight: 700; margin-bottom: 1rem;">
+                            <?php echo $mensajeError; ?>
+                        </p>
+                    <?php endif; ?>
                     <form action="../Controller/UserController.php" method="post">
                         <div class="g_form">
                             <label for="email">Correo electrónico</label>

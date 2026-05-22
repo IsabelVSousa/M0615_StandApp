@@ -1083,6 +1083,28 @@ var_dump($_SESSION);
 
             </div>
         </section>
+        <section>
+            <form action="../Controller/UserController.php" method="post" onsubmit="return confirm('¿Seguro que quieres eliminar tu perfil? Esta acción no se puede deshacer.');">
+                <button type="submit" name="deleteProfile" class="btn-eliminar-perfil"
+                    style="
+                background: transparent;
+                border: 1px solid var(--primary-orange);
+                color: var(--primary-orange);
+                padding: 0.6rem 1.5rem;
+                border-radius: 0.4rem;
+                font-family: 'Outfit', sans-serif;
+                font-weight: bold;
+                cursor: pointer;
+                font-size: 0.9rem;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+            ">
+                    <span class="material-icons-round" style="font-size:1rem;">delete</span>
+                    Eliminar perfil
+                </button>
+            </form>
+        </section>
 
     </main>
 

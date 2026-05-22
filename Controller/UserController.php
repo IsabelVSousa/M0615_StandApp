@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // que tipo de post es y derivar a su funcion
     if (isset($_POST["login"])) {
-        echo "<p>Login click</p>";
+        // echo "<p>Login click</p>";
         $userController->login();
     }
 
@@ -32,6 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["register_Admin"])) {
         echo "<p>register_Admin click</p>";
         $userController->register_Admin();
+    }
+
+    if (isset($_POST["deleteProfile"])) {
+        // echo "<p>Delete click</p>";
+        $userController->deleteProfile();
     }
 }
 
@@ -310,6 +315,53 @@ class UserController
             exit;
         } else {
             header("Location: ../View/register_Admin.php?error=error_bd");
+            exit;
+        }
+    }
+
+    public function deleteProfile(): void
+    {
+        if (!isset($_SESSION['IDPersona'], $_SESSION['tipo'])) {
+            header("Location: ../View/LogIn.php");
+            exit;
+        }
+
+        $idPersona = $_SESSION['IDPersona'];
+        $tipo = $_SESSION['tipo'];
+
+        try {
+            $this->conn->beginTransaction();
+
+            if ($tipo === 'admin') {
+                $stmtEventos = $this->conn->prepare("
+                DELETE FROM evento
+                WHERE IDPersona = :idPersona
+            ");
+                $stmtEventos->execute(['idPersona' => $idPersona]);
+            }
+
+            $stmtEntradas = $this->conn->prepare("
+            DELETE FROM entrada
+            WHERE IDPersona = :idPersona
+        ");
+            $stmtEntradas->execute(['idPersona' => $idPersona]);
+
+            $stmtPersona = $this->conn->prepare("
+            DELETE FROM persona
+            WHERE IDPersona = :idPersona
+        ");
+            $stmtPersona->execute(['idPersona' => $idPersona]);
+
+            $this->conn->commit();
+
+            session_unset();
+            session_destroy();
+
+            header("Location: ../View/LogIn.php?exito=perfileliminado");
+            exit;
+        } catch (PDOException $e) {
+            $this->conn->rollBack();
+            header("Location: ../View/LogIn.php?error=errorbd");
             exit;
         }
     }

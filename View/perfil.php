@@ -133,7 +133,9 @@ $password = $_SESSION['password'] ?? '';
             align-items: center;
         }
 
-        .menu-checkbox { display: none; }
+        .menu-checkbox {
+            display: none;
+        }
 
         .menu-toggle {
             display: none;
@@ -168,8 +170,10 @@ $password = $_SESSION['password'] ?? '';
         .perfil-hero::before {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 6px; height: 100%;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
             background-color: var(--primary-orange);
             border-radius: 15px 0 0 15px;
         }
@@ -207,7 +211,9 @@ $password = $_SESSION['password'] ?? '';
         }
 
         /* Input file real — invisible */
-        #input-foto { display: none; }
+        #input-foto {
+            display: none;
+        }
 
         /* Botón naranja pequeño en la esquina inferior derecha del avatar */
         .label-foto {
@@ -322,10 +328,21 @@ $password = $_SESSION['password'] ?? '';
         }
 
         /* Cuando el checkbox está activado */
-        #toggle-editar:checked ~ .card-datos .icono-editar { display: none; }
-        #toggle-editar:checked ~ .card-datos .icono-cerrar { display: flex; }
-        #toggle-editar:checked ~ .card-datos .datos-vista  { display: none; }
-        #toggle-editar:checked ~ .card-datos .datos-form   { display: flex; }
+        #toggle-editar:checked~.card-datos .icono-editar {
+            display: none;
+        }
+
+        #toggle-editar:checked~.card-datos .icono-cerrar {
+            display: flex;
+        }
+
+        #toggle-editar:checked~.card-datos .datos-vista {
+            display: none;
+        }
+
+        #toggle-editar:checked~.card-datos .datos-form {
+            display: flex;
+        }
 
         /* Vista lectura: grid 3 columnas */
         .datos-vista {
@@ -495,8 +512,15 @@ $password = $_SESSION['password'] ?? '';
             margin-top: 0.6rem;
         }
 
-        .estrella      { color: var(--primary-orange); font-size: 1.4rem; }
-        .estrella-vacia { color: #444; font-size: 1.4rem; }
+        .estrella {
+            color: var(--primary-orange);
+            font-size: 1.4rem;
+        }
+
+        .estrella-vacia {
+            color: #444;
+            font-size: 1.4rem;
+        }
 
         /* ══ HISTORIAL ══ */
         .seccion-titulo {
@@ -545,11 +569,27 @@ $password = $_SESSION['password'] ?? '';
             min-width: 3.5rem;
         }
 
-        .historial-fecha-dia { font-size: 1.2rem; font-weight: 800; line-height: 1; }
-        .historial-fecha-mes { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .historial-fecha-dia {
+            font-size: 1.2rem;
+            font-weight: 800;
+            line-height: 1;
+        }
 
-        .historial-info { flex: 1; }
-        .historial-nombre { font-weight: 700; font-size: 0.95rem; }
+        .historial-fecha-mes {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .historial-info {
+            flex: 1;
+        }
+
+        .historial-nombre {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
 
         .historial-lugar {
             color: var(--text-muted);
@@ -560,8 +600,15 @@ $password = $_SESSION['password'] ?? '';
             gap: 0.25rem;
         }
 
-        .historial-lugar .material-icons-round { font-size: 0.9rem; }
-        .historial-precio { font-weight: 800; font-size: 1rem; color: var(--primary-orange); }
+        .historial-lugar .material-icons-round {
+            font-size: 0.9rem;
+        }
+
+        .historial-precio {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--primary-orange);
+        }
 
         /* ══ FOOTER ══ */
         .footer-section {
@@ -576,17 +623,32 @@ $password = $_SESSION['password'] ?? '';
             align-items: center;
         }
 
-        .footer-copy { font-size: 0.85rem; opacity: 0.85; }
+        .footer-copy {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
 
-        .footer-social-wrap { display: flex; gap: 1.5rem; align-items: center; }
-        .footer-social-wrap a { opacity: 0.85; transition: opacity 0.2s; }
-        .footer-social-wrap a:hover { opacity: 1; }
+        .footer-social-wrap {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .footer-social-wrap a {
+            opacity: 0.85;
+            transition: opacity 0.2s;
+        }
+
+        .footer-social-wrap a:hover {
+            opacity: 1;
+        }
 
         /* ══ RESPONSIVE ══ */
         @media screen and (max-width: 992px) {
             .fila-stats {
                 grid-template-columns: 1fr 1fr;
             }
+
             .datos-vista,
             .form-grid {
                 grid-template-columns: 1fr 1fr;
@@ -594,9 +656,13 @@ $password = $_SESSION['password'] ?? '';
         }
 
         @media screen and (max-width: 742px) {
-            body { overflow-x: hidden; }
+            body {
+                overflow-x: hidden;
+            }
 
-            .menu-toggle { display: block; }
+            .menu-toggle {
+                display: block;
+            }
 
             .navegacion-principal {
                 position: relative;
@@ -620,8 +686,8 @@ $password = $_SESSION['password'] ?? '';
                 border-radius: 10px;
             }
 
-            .menu-checkbox:checked ~ .enlaces-navegacion,
-            .menu-checkbox:checked ~ .botones-navegacion {
+            .menu-checkbox:checked~.enlaces-navegacion,
+            .menu-checkbox:checked~.botones-navegacion {
                 display: flex;
             }
 
@@ -636,12 +702,18 @@ $password = $_SESSION['password'] ?? '';
                 height: 5px;
             }
 
-            .fila-stats { grid-template-columns: 1fr; }
+            .fila-stats {
+                grid-template-columns: 1fr;
+            }
 
             .datos-vista,
-            .form-grid { grid-template-columns: 1fr; }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
 
-            .form-acciones { flex-direction: column-reverse; }
+            .form-acciones {
+                flex-direction: column-reverse;
+            }
 
             .btn-guardar,
             .btn-cancelar-edit {
@@ -711,8 +783,8 @@ $password = $_SESSION['password'] ?? '';
 
                     <!-- Input file oculto — el label de abajo lo activa -->
                     <input type="file" id="input-foto" name="foto"
-                           accept="image/png, image/jpeg, image/webp"
-                           onchange="this.form.submit()">
+                        accept="image/png, image/jpeg, image/webp"
+                        onchange="this.form.submit()">
 
                     <!-- Botón naranja en esquina inferior derecha -->
                     <label for="input-foto" class="label-foto" title="Cambiar foto de perfil">
@@ -766,17 +838,17 @@ $password = $_SESSION['password'] ?? '';
                     <div class="form-grupo">
                         <label for="inputNombre">Nombre completo</label>
                         <input type="text" id="inputNombre" name="nombre"
-                               value="<?= htmlspecialchars($nombre) ?>" required>
+                            value="<?= htmlspecialchars($nombre) ?>" required>
                     </div>
                     <div class="form-grupo">
                         <label for="inputEmail">Correo electrónico</label>
                         <input type="email" id="inputEmail" name="email"
-                               value="<?= htmlspecialchars($email) ?>" readonly style="opacity: 0.5; cursor: not-allowed;">
+                            value="<?= htmlspecialchars($email) ?>" readonly style="opacity: 0.5; cursor: not-allowed;">
                     </div>
                     <div class="form-grupo">
                         <label for="inputPassword">Nueva contraseña</label>
                         <input type="password" id="inputPassword" name="password"
-                               placeholder="Dejar vacío para no cambiar">
+                            placeholder="Dejar vacío para no cambiar">
                     </div>
                 </div>
                 <div class="form-acciones">
@@ -786,10 +858,10 @@ $password = $_SESSION['password'] ?? '';
             </form>
 
             <?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
-            <div class="mensaje-ok">
-                <span class="material-icons-round" style="font-size:1rem;">check_circle</span>
-                Datos actualizados correctamente
-            </div>
+                <div class="mensaje-ok">
+                    <span class="material-icons-round" style="font-size:1rem;">check_circle</span>
+                    Datos actualizados correctamente
+                </div>
             <?php endif; ?>
 
         </div>
@@ -892,7 +964,28 @@ $password = $_SESSION['password'] ?? '';
 
             </div>
         </section>
-
+        <section>
+            <form action="../Controller/UserController.php" method="post" onsubmit="return confirm('¿Seguro que quieres eliminar tu perfil? Esta acción no se puede deshacer.');">
+                <button type="submit" name="deleteProfile" class="btn-eliminar-perfil"
+                    style="
+                background: transparent;
+                border: 1px solid var(--primary-orange);
+                color: var(--primary-orange);
+                padding: 0.6rem 1.5rem;
+                border-radius: 0.4rem;
+                font-family: 'Outfit', sans-serif;
+                font-weight: bold;
+                cursor: pointer;
+                font-size: 0.9rem;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+            ">
+                    <span class="material-icons-round" style="font-size:1rem;">delete</span>
+                    Eliminar perfil
+                </button>
+            </form>
+        </section>
     </main>
 
     <!-- FOOTER -->
@@ -908,4 +1001,5 @@ $password = $_SESSION['password'] ?? '';
     </footer>
 
 </body>
+
 </html>
