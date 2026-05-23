@@ -49,7 +49,17 @@ references evento (IDEvento) on delete cascade,
 constraint fk_valorar_persona foreign key (IDPersona) 
 references persona (IDPersona));
 
+ALTER TABLE evento 
+ADD COLUMN ubicacion VARCHAR(100),
+ADD COLUMN imagen_evento VARCHAR(255),
+ADD COLUMN descripcion_larga VARCHAR(500);
 
+ALTER TABLE entrada 
+ADD COLUMN IDEvento VARCHAR(25),
+ADD COLUMN fecha_reserva TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ADD CONSTRAINT fk_entrada_evento FOREIGN KEY (IDEvento) REFERENCES evento(IDEvento) ON DELETE CASCADE;
+
+ALTER TABLE persona MODIFY contraseña VARCHAR(255) NOT NULL;
 
 
 

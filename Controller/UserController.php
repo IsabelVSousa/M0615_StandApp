@@ -83,6 +83,8 @@ class UserController
         // o esta otra opcion??
         $email = $_POST['email'];
         $psw = $_POST['password'];
+        //$pswHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
         // necesita que exista las dos cosas para poder enviar el post
 
         // Preparar consulta, falta password
@@ -95,14 +97,14 @@ class UserController
 
         if ($fila = $stmt->fetch()) {
 
-            if ($psw == $fila['contraseña']) {
+            if (password_verify($psw, $fila['contraseña'])) {
                 $_SESSION['IDPersona'] = $fila['IDPERSONA'];
                 $_SESSION['tipo'] = $fila['tipo'];
                 $_SESSION['nombre'] = $fila['nombreApellido'];
 
                 echo "Bienvenido, " . $fila['nombreApellido'];
                 $_SESSION['email'] = $_POST['email'];
-                $_SESSION['password'] = $_POST['password'];
+                //$_SESSION['password'] = $_POST['password'];
                 if ($fila['tipo'] === 'admin') {
                     header("Location: ../View/perfil_admin.php");
                 } else {
@@ -200,7 +202,8 @@ class UserController
         }
 
 
-        // $pswHash = password_hash($psw, PASSWORD_DEFAULT);  // Este nos va a servir para ocultar las contraseñas pero debemos ajustar tambien el login
+        $pswHash = password_hash($psw, PASSWORD_DEFAULT);
+        // Este nos va a servir para ocultar las contraseñas pero debemos ajustar tambien el login
 
         $telefonoConPrefijo = "+34 " . $telefono;
         // ESTO LO REVISO PORQUE ES DIRECTO CON LA BBDD Y EL XAMMP NO CARGA
@@ -221,7 +224,7 @@ class UserController
         $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
 
-        if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw])) {
+        if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $pswHash])) {
             // Imagen de perfil solo para admin (req. 2.5)
             if ($tipo === 'admin' && isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
                 $destino = "../View/img/perfiles/" . $idPersona . "_" . basename($_FILES['imagen']['name']);
@@ -286,6 +289,8 @@ class UserController
             exit;
         }
 
+        $pswHash = password_hash($psw, PASSWORD_DEFAULT);
+
         // FIN VALIDACIONES
 
         $telefonoConPrefijo = "+34 " . $telefono;
@@ -302,7 +307,7 @@ class UserController
         $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
 
-        if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $psw])) {
+        if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $pswHash])) {
 
             $carpeta = "../View/img/perfiles/";
             if (!file_exists($carpeta)) {
