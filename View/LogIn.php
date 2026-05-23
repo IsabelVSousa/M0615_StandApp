@@ -102,7 +102,7 @@ if ($mensajeError): ?>
                         </div>
                         <div class="g_form">
                             <label for="password">Contraseña</label>
-                            <input type="text" id="password" name="password" placeholder="contraseña">
+                            <input type="password" id="password" name="password" placeholder="contraseña">
                         </div>
                         <button type="submit" name="login">Iniciar sesión</button>
                         <!-- <input type="submit" value="Iniciar sesión"> -->

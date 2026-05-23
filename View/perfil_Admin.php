@@ -14,7 +14,6 @@ if (isset($_GET['exito']) && array_key_exists($_GET['exito'], $exitos)) {
     echo '<p style="color: var(--primary-orange); font-weight:700;">' . $exitos[$_GET['exito']] . '</p>';
 }
 
-var_dump($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="es">
