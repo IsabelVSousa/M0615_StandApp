@@ -123,93 +123,53 @@ if (isset($_SESSION['IDPersona'])) {
         <!-- BARRA DE BUSQUEDA -->
 
         <div class="search-container">
-            <form action="buscar.php" method="GET" class="search-form">
+            <form action="eventos_todos.php" method="GET" class="search-form">
+
+                <!-- SELECTOR DE FECHA -->
                 <div class="date-input-wrapper" id="date-wrapper">
-                    <input type="checkbox" id="toggle-calendar" hidden>
-
-                    <label for="toggle-calendar" class="calendar-trigger">
+                    <label for="fecha-visible" class="calendar-trigger">
                         <i class="far fa-calendar-alt fa-2x"></i>
-                        <span class="arrow-down">▼</span>
+                        <span id="fecha-texto">Seleccionar fecha</span>
                     </label>
-
-                    <!-- <input type="checkbox" id="toggle-calendar" hidden>
-
-<label for="toggle-calendar" class="calendar-trigger">
-    <i class="far fa-calendar-alt"></i>
-    <span class="arrow-down">▼</span>
-</label> -->
-
-                    <div class="datepicker">
-                        <div class="datepicker-top">
-                            <div class="btn-group">
-                                <button type="button" class="tag">Hoy</button>
-                                <button type="button" class="tag">Mañana</button>
-                                <button type="button" class="tag">En dos dias</button>
-                            </div>
-                            <div class="month-selector">
-                                <button type="button" class="arrow"><i class="material-icons">Izq</i></button>
-                                <span class="month-name">Enero 2026</span>
-                                <button type="button" class="arrow"><i class="material-icons">Der</i></button>
-                            </div>
-                        </div>
-                        <div class="datepicker-calendar">
-                            <span class="day">Lu</span>
-                            <span class="day">Ma</span>
-                            <span class="day">Mi</span>
-                            <span class="day">Ju</span>
-                            <span class="day">Vi</span>
-                            <span class="day">Sa</span>
-                            <span class="day">Do</span>
-                            <button type="button" class="date faded">30</button>
-                            <button type="button" class="date">1</button>
-                            <button type="button" class="date">2</button>
-                            <button type="button" class="date">3</button>
-                            <button type="button" class="date">4</button>
-                            <button type="button" class="date">5</button>
-                            <button type="button" class="date">6</button>
-                            <button type="button" class="date">7</button>
-                            <button type="button" class="date">8</button>
-                            <button type="button" class="date current-day">9</button>
-                            <button type="button" class="date">10</button>
-                            <button type="button" class="date">11</button>
-                            <button type="button" class="date">12</button>
-                            <button type="button" class="date">13</button>
-                            <button type="button" class="date">14</button>
-                            <button type="button" class="date">15</button>
-                            <button type="button" class="date">16</button>
-                            <button type="button" class="date">17</button>
-                            <button type="button" class="date">18</button>
-                            <button type="button" class="date">19</button>
-                            <button type="button" class="date">20</button>
-                            <button type="button" class="date">21</button>
-                            <button type="button" class="date">22</button>
-                            <button type="button" class="date">23</button>
-                            <button type="button" class="date">24</button>
-                            <button type="button" class="date">25</button>
-                            <button type="button" class="date">26</button>
-                            <button type="button" class="date">27</button>
-                            <button type="button" class="date">28</button>
-                            <button type="button" class="date">29</button>
-                            <button type="button" class="date">30</button>
-                            <button type="button" class="date">31</button>
-                            <button type="button" class="date faded">1</button>
-                            <button type="button" class="date faded">2</button>
-                            <button type="button" class="date faded">3</button>
-                        </div>
-                    </div>
-                    <!-- fin calendario -->
-
-                    <input type="date" name="fecha" placeholder="00/00/00"
-                        style="position:absolute; opacity:0; width:100%; height:100%; cursor:pointer;">
+                    <input type="date"
+                        id="fecha-visible"
+                        name="fecha"
+                        onchange="mostrarFecha(this)"
+                        style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        opacity: 0;
+                        cursor: pointer;
+                        z-index: 10;">
                 </div>
+
+                <!-- BUSCADOR DE TEXTO -->
                 <div class="search-input-wrapper">
-                    <input type="text" name="busqueda" placeholder="Buscar...">
+                    <input type="text" name="busqueda" placeholder="Buscar comediante o evento...">
                     <button type="submit" style="background:none; border:none;">
                         <i class="fas fa-search search-icon"></i>
                     </button>
                 </div>
+
             </form>
         </div>
+
+        <script>
+            function mostrarFecha(input) {
+                if (input.value) {
+                    // Convertir de YYYY-MM-DD a DD/MM/YYYY para mostrar
+                    const partes = input.value.split('-');
+                    document.getElementById('fecha-texto').textContent =
+                        partes[2] + '/' + partes[1] + '/' + partes[0];
+
+                    // Enviar el formulario automáticamente al seleccionar fecha
+                    input.form.submit();
+                }
+            }
+        </script>
 
         <!-- HERO CARD -->
 
@@ -306,7 +266,7 @@ if (isset($_SESSION['IDPersona'])) {
                 <div class="events-content">
                     <h1>Próximos Eventos</h1>
                     <?php if (isset($_SESSION['IDPersona'])): ?>
-                        <a href="eventos_todos.php">Descubre más</a>
+                        <a href="event_all.php">Descubre más</a>
                     <?php else: ?>
                         <a href="LogIn.php">Descubre más</a>
                     <?php endif; ?>
@@ -332,13 +292,9 @@ if (isset($_SESSION['IDPersona'])) {
                         <button class="carrusel-btn carrusel-prev" onclick="moverCarrusel(-1)">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        
-                        <div class="carrusel-wrapper">
-                            <button class="carrusel-btn carrusel-prev" onclick="moverCarrusel(-1)">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
 
-                            <!-- Contenedor de tarjetas -->
+                        <!-- Contenedor de tarjetas -->
+                        <div class="carrusel-overflow">
                             <div class="carrusel-contenedor" id="carrusel">
                                 <?php foreach ($eventosCarrusel as $ev): ?>
                                     <div class="outline next-event carrusel-item">

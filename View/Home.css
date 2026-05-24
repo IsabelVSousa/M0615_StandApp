@@ -145,14 +145,16 @@ a {
 }
 
 .date-input-wrapper {
+    position: relative; 
     flex: 1;
     padding: 15px;
     border-right: 2px solid var(--primary-orange);
-    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 10px;
     color: var(--primary-orange);
+    cursor: pointer;
+    overflow: hidden;
 }
 
 .search-input-wrapper {
