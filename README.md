@@ -260,6 +260,7 @@ sequenceDiagram
     end
 ```
 
+
 ---
 
 ## Technical Requirements
