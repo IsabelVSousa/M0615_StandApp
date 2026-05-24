@@ -61,6 +61,8 @@ ADD CONSTRAINT fk_entrada_evento FOREIGN KEY (IDEvento) REFERENCES evento(IDEven
 
 ALTER TABLE persona MODIFY contraseña VARCHAR(255) NOT NULL;
 
+ALTER TABLE persona ADD COLUMN imagen VARCHAR(255) DEFAULT NULL;
+
 
 
 

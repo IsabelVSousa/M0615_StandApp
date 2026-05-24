@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (isset($_POST["updateProfile"])) {
-        echo "<p>Update click</p>";
+        //echo "<p>Update click</p>";
         $userController->updateProfile();
     }
 
@@ -88,7 +88,7 @@ class UserController
         // necesita que exista las dos cosas para poder enviar el post
 
         // Preparar consulta, falta password
-        $sql = "SELECT IDPERSONA, nombreApellido, email, contraseña, tipo  FROM persona WHERE email = ? ";
+        $sql = "SELECT IDPERSONA, nombreApellido, email, contraseña, tipo, imagen  FROM persona WHERE email = ? ";
 
 
         $stmt = $this->conn->prepare($sql);
@@ -101,6 +101,7 @@ class UserController
                 $_SESSION['IDPersona'] = $fila['IDPERSONA'];
                 $_SESSION['tipo'] = $fila['tipo'];
                 $_SESSION['nombre'] = $fila['nombreApellido'];
+                $_SESSION['foto']      = $fila['imagen'] ?? '';
 
                 echo "Bienvenido, " . $fila['nombreApellido'];
                 $_SESSION['email'] = $_POST['email'];
@@ -135,28 +136,63 @@ class UserController
 
     public function updateProfile(): void
     {
+        $idPersona = $_SESSION['IDPersona'];
+        $tipo      = $_SESSION['tipo'];
         $email = $_SESSION['email'];
-        $psw = $_POST['password'];
         $name = trim($_POST['nombre'] ?? '');
+        $psw = $_POST['password'] ?? '';
+        $psw2 = $_POST['password2'] ?? '';
+
+        $paginaPerfil = ($tipo === 'admin') ? 'perfil_Admin.php' : 'perfil.php';
+        error_log("paginaPerfil: " . $paginaPerfil);
+        error_log("tipo session: " . $tipo);
+
+        $campos = [];
+        $params = [':id' => $idPersona];
+
+        if (!empty($name)) {
+            $campos[] = 'nombreApellido = :name';
+            $params[':name'] = $name;
+            $_SESSION['nombre'] = $name;
+        }
+
+        if (!empty($psw)) {
+            if (strlen($psw) < 8 || strlen($psw) > 20) {
+                header("Location: ../View/{$paginaPerfil}?error=password_corta");
+                exit;
+            }
+
+            $campos[] = 'contraseña = :psw';
+            $params[':psw'] = password_hash($psw, PASSWORD_DEFAULT);
+        }
+
+        //RESPECTO A LA FOTO DE PERFIL
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
+            $carpeta = "../View/img/perfiles/";
+            if (!file_exists($carpeta)) mkdir($carpeta, 0777, true);
+
+            $nombreArchivo = $idPersona . '_' . time() . '_' . basename($_FILES['imagen']['name']);
+
+            if (move_uploaded_file($_FILES['imagen']['tmp_name'], $carpeta . $nombreArchivo)) {
+                $campos[] = 'imagen = :imagen';
+                $params[':imagen'] = 'img/perfiles/' . $nombreArchivo;
+                $_SESSION['foto'] = 'img/perfiles/' . $nombreArchivo;
+            }
+        }
+
+        if (empty($campos)) {
+            header("Location: ../View/{$paginaPerfil}");
+            exit;
+        }
 
         try {
-            $sql = "UPDATE persona SET nombreApellido = :name, contraseña = :psw WHERE email = :email";
+            $sql  = "UPDATE persona SET " . implode(', ', $campos) . " WHERE IDPersona = :id";
             $stmt = $this->conn->prepare($sql);
 
+            $stmt->execute($params);
 
-            $stmt->execute([
-                ':name' => $name,
-                ':psw' => $psw,
-                ':email' => $email
-            ]);
+            header("Location: ../View/{$paginaPerfil}?updated=1");
 
-            echo "Registro actualizado correctamente<br>";
-            echo "Filas afectadas: " . $stmt->rowCount();
-
-            $_SESSION['nombre'] = $name;
-            $_SESSION['password'] = $psw;
-
-            header("Location: ../View/perfil.php?updated=1");
             exit;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -304,17 +340,20 @@ class UserController
             exit;
         }
 
-        $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
+        $carpeta = "../View/img/perfiles/";
+        if (!file_exists($carpeta)) mkdir($carpeta, 0777, true);
+
+
+        $nombreArchivo = $idPersona . "_" . basename($_FILES['imagen']['name']);
+        $destino = $carpeta . $nombreArchivo;
+        move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
+
+        $sql = "INSERT INTO persona (IDPersona, tipo, nombreApellido, telefono, email, contraseña, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
 
-        if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $pswHash])) {
+        if ($stmt->execute([$idPersona, $tipo, $nombreApellido, $telefonoConPrefijo, $email, $pswHash, 'img/perfiles/' . $nombreArchivo])) {
 
-            $carpeta = "../View/img/perfiles/";
-            if (!file_exists($carpeta)) {
-                mkdir($carpeta, 0777, true);
-            }
-            $destino = $carpeta . $idPersona . "_" . basename($_FILES['imagen']['name']);
-            move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
+
 
             header("Location: ../View/Home.php?exito=registro_ok");
             exit;

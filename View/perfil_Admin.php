@@ -876,7 +876,7 @@ if (isset($_GET['exito']) && array_key_exists($_GET['exito'], $exitos)) {
 
             <!-- Formulario de subida de foto — envía al controller -->
             <form action="../Controller/UserController.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="accion" value="actualizar_foto">
+                <input type="hidden" name="updateProfile" value="1">
 
                 <div class="avatar-wrapper">
                     <div class="avatar-grande">
@@ -888,7 +888,7 @@ if (isset($_GET['exito']) && array_key_exists($_GET['exito'], $exitos)) {
                     </div>
 
                     <!-- Input file oculto — el label de abajo lo activa -->
-                    <input type="file" id="input-foto" name="foto"
+                    <input type="file" id="input-foto" name="imagen"
                         accept="image/png, image/jpeg, image/webp"
                         onchange="this.form.submit()">
 
@@ -946,8 +946,8 @@ if (isset($_GET['exito']) && array_key_exists($_GET['exito'], $exitos)) {
             </div>
 
             <!-- Formulario de edición -->
-            <form class="datos-form" action="../Controller/UserController.php" method="post">
-                <input type="hidden" name="accion" value="actualizar_perfil">
+            <form class="datos-form" action="../Controller/UserController.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="updateProfile" value="1">
                 <div class="form-grid">
                     <div class="form-grupo">
                         <label for="inputNombre">Nombre completo</label>
@@ -971,7 +971,17 @@ if (isset($_GET['exito']) && array_key_exists($_GET['exito'], $exitos)) {
                 </div>
             </form>
 
-            <?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
+            <?php 
+            if (isset($_GET['error'])) {
+                $errores = [
+                    'password_corta' => 'La contraseña debe tener entre 8 y 20 caracteres.',
+                ];
+
+                if (array_key_exists($_GET['error'], $errores)) {
+                    echo '<p style="color:red;">' . $errores[$_GET['error']] . '</p>';
+                }
+            }
+            if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
                 <div class="mensaje-ok">
                     <span class="material-icons-round" style="font-size:1rem;">check_circle</span>
                     Datos actualizados correctamente
