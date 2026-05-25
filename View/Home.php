@@ -38,6 +38,12 @@ if (isset($_SESSION['IDPersona'])) {
     <script src="./JS/cookies.js" defer></script>
     <script src="./JS/text_hover.js" defer></script>
     <!-- <link rel="stylesheet" href="cookies.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+    <link rel="stylesheet" href="Home.css">
 </head>
 
 <body>
@@ -276,12 +282,13 @@ if (isset($_SESSION['IDPersona'])) {
         </section>
 
         <!-- COMENTARIOS -->
-        <section class="next-card" id="seccion-comentarios">
+        <section class="next-card">
             <div class="events-content">
                 <h1>Comentarios</h1>
                 <a href="<?php echo $destino ?>" target="_blank">Descubre más</a>
             </div>
-            <div class="collection-list">
+
+            <div id="carrusel-comentarios-slick">
                 <a href="<?php echo $destino ?>" target="_blank">
                     <div class="card-footer outline comentary-card">
                         <div class="card-info-right">
@@ -289,8 +296,7 @@ if (isset($_SESSION['IDPersona'])) {
                         </div>
                         <div class="comentary-content">
                             <h3>Risas & Birras</h3>
-                            <p>El plan ideal para una noche con amigos. Buen humor, buen ambiente y además puedes
-                                tomarte algo mientras ves el show. Se pasa volando y te quedas con ganas de más.</p>
+                            <p>El plan ideal para una noche con amigos. Buen humor, buen ambiente y además puedes tomarte algo mientras ves el show. Se pasa volando y te quedas con ganas de más.</p>
                         </div>
                         <div class="arrow-icon button-next"><i class="fa-solid fa-arrow-right"></i></div>
                     </div>
@@ -302,9 +308,7 @@ if (isset($_SESSION['IDPersona'])) {
                         </div>
                         <div class="comentary-content">
                             <h3>Micro Abierto Sin Filtro</h3>
-                            <p>Me gustó mucho el formato, se siente muy auténtico porque los cómicos prueban
-                                material nuevo. Algunos chistes funcionan mejor que otros, pero eso es parte de la
-                                gracia. Muy recomendable si te gusta algo diferente.</p>
+                            <p>Me gustó mucho el formato, se siente muy auténtico porque los cómicos prueban material nuevo. Algunos chistes funcionan mejor que otros, pero eso es parte de la gracia. Muy recomendable si te gusta algo diferente.</p>
                         </div>
                         <div class="arrow-icon button-next"><i class="fa-solid fa-arrow-right"></i></div>
                     </div>
@@ -316,9 +320,7 @@ if (isset($_SESSION['IDPersona'])) {
                         </div>
                         <div class="comentary-content">
                             <h3>Noche de Risas BCN</h3>
-                            <p>Fui con unos amigos sin saber qué esperar y salimos encantados. Los comediantes
-                                fueron muy cercanos y hubo momentos de improvisación que hicieron el show aún más
-                                divertido. Sin duda repetiré.</p>
+                            <p>Fui con unos amigos sin saber qué esperar y salimos encantados. Los comediantes fueron muy cercanos y hubo momentos de improvisación que hicieron el show aún más divertido. Sin duda repetiré.</p>
                         </div>
                         <div class="arrow-icon button-next"><i class="fa-solid fa-arrow-right"></i></div>
                     </div>
@@ -330,9 +332,7 @@ if (isset($_SESSION['IDPersona'])) {
                         </div>
                         <div class="comentary-content">
                             <h3>Comedy Night Underground</h3>
-                            <p>Un ambiente súper cercano, casi íntimo. Descubrí a varios comediantes que no conocía
-                                y me sorprendieron muchísimo. Es perfecto si buscas algo alternativo fuera de lo
-                                típico.</p>
+                            <p>Un ambiente súper cercano, casi íntimo. Descubrí a varios comediantes que no conocía y me sorprendieron muchísimo. Es perfecto si buscas algo alternativo fuera de lo típico.</p>
                         </div>
                         <div class="arrow-icon button-next"><i class="fa-solid fa-arrow-right"></i></div>
                     </div>
@@ -384,7 +384,7 @@ if (isset($_SESSION['IDPersona'])) {
             </div>
         </div>
     </footer>
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 </body>
 
 </html>
