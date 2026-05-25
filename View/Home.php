@@ -34,6 +34,8 @@ if (isset($_SESSION['IDPersona'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="Home.css">
     <script src="./JS/carrusel.js" defer></script>
+    <script src="./JS/cookies.js" defer></script>
+    <!-- <link rel="stylesheet" href="cookies.css"> -->
 </head>
 
 <body>
@@ -250,7 +252,7 @@ if (isset($_SESSION['IDPersona'])) {
                 </div>
 
                 <div class="carrusel-dots" id="carrusel-dots">
-                   
+
                 </div>
 
             <?php endif; ?>
@@ -367,4 +369,5 @@ if (isset($_SESSION['IDPersona'])) {
     </footer>
 
 </body>
+
 </html>
