@@ -33,8 +33,10 @@ if (isset($_SESSION['IDPersona'])) {
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="Home.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./JS/carrusel.js" defer></script>
     <script src="./JS/cookies.js" defer></script>
+    <script src="./JS/text_hover.js" defer></script>
     <!-- <link rel="stylesheet" href="cookies.css"> -->
 </head>
 
@@ -135,6 +137,11 @@ if (isset($_SESSION['IDPersona'])) {
                             <source src="../View/img/outstand2.mp4" type="video/mp4">
                             Tu navegador no soporta la reproducción de videos.
                         </video>
+                        <div class="mensaje-hover-destacado" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: white; justify-content: center; align-items: center; text-align: center; padding: 10px; box-sizing: border-box; border-radius: 8px; z-index: 10;">
+                            <p style="font-size: 1.1rem; font-weight: bold; line-height: 1.3;">
+                                <i class="fas fa-calendar-star"></i> ¡Nuevo show en Abril!<br>Reserva tus entradas.
+                            </p>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <a href="<?php echo $destino ?>" class="card-info-right">
@@ -149,6 +156,11 @@ if (isset($_SESSION['IDPersona'])) {
                             <source src="../View/img/outstanda.mp4" type="video/mp4">
                             Tu navegador no soporta la reproducción de videos.
                         </video>
+                        <div class="mensaje-hover-destacado" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: white; justify-content: center; align-items: center; text-align: center; padding: 10px; box-sizing: border-box; border-radius: 8px; z-index: 10;">
+                            <p style="font-size: 1.1rem; font-weight: bold; line-height: 1.3;">
+                                <i class="fas fa-calendar-star"></i> ¡Nuevo show en Abril!<br>Reserva tus entradas.
+                            </p>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <a href="<?php echo $destino ?>" class="card-info-right">
@@ -163,6 +175,11 @@ if (isset($_SESSION['IDPersona'])) {
                             <source src="../View/img/outstandb.mp4" type="video/mp4">
                             Tu navegador no soporta la reproducción de videos.
                         </video>
+                        <div class="mensaje-hover-destacado" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: white; justify-content: center; align-items: center; text-align: center; padding: 10px; box-sizing: border-box; border-radius: 8px; z-index: 10;">
+                            <p style="font-size: 1.1rem; font-weight: bold; line-height: 1.3;">
+                                <i class="fas fa-calendar-star"></i> ¡Nuevo show en Abril!<br>Reserva tus entradas.
+                            </p>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <a href="<?php echo $destino ?>" class="card-info-right">
